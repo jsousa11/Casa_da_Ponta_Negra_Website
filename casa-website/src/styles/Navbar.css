@@ -1,0 +1,57 @@
+/* Navbar */
+.navbar {
+  background-color: #F5EFE6; /* Cor de fundo clean */
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Logo */
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #2F3E29;
+}
+
+/* Links da Navbar */
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #2F3E29;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #6B705C;
+}
+
+/* Botão "Book Now" */
+.book-btn {
+  text-decoration: none;
+  font-size: 16px;
+  color: #2F3E29;
+  border: 1px dashed #2F3E29;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #2F3E29;
+  color: white;
+}

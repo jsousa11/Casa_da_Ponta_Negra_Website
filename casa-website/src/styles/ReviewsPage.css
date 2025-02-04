@@ -1,0 +1,67 @@
+/* Header Section */
+.reviews-header {
+    background-color: #F0E6D2;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .reviews-header h2 {
+    font-size: 42px;
+    color: #2F3E29;
+  }
+  
+  .reviews-header p {
+    font-size: 18px;
+    color: #6B705C;
+    margin-bottom: 30px;
+  }
+  
+  /* Review Card */
+  .review-card {
+    background-color: #E5D4BA;
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  
+  .stars {
+    color: #FFD700;
+    font-size: 24px;
+  }
+  
+  .review-text {
+    font-size: 20px;
+    color: #2F3E29;
+    margin: 20px 0;
+  }
+  
+  .review-author {
+    font-size: 16px;
+    color: #6B705C;
+    margin-bottom: 20px;
+  }
+  
+  /* Navigation Buttons */
+  .review-navigation {
+    display: flex;
+    justify-content: space-between;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  .review-navigation button {
+    background: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+  
+  .review-navigation button:hover {
+    background: #D4B996;
+  }
+  
