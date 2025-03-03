@@ -13,46 +13,51 @@ const Home = () => {
       
       {/* Hero Section */}
       <section className="hero">
-        <h2>Far away from the suburbs.</h2>
-        <img src="/hero-image.jpg" alt="Cabin in the woods" />
+        <h2>Your Private Escape in Santa Maria</h2>
+        <p>Experience the tranquility of the Azores with breathtaking ocean views.</p>
+        <img src="/hero-image.jpg" alt="Casa da Ponta Negra view" />
       </section>
 
       {/* Property Section */}
       <section className="property">
-        <h2>Property</h2>
-        <p>A space tailor-made to relax and recenter.</p>
+        <h2>The Property</h2>
+        <p>A secluded retreat designed for relaxation and comfort.</p>
         <div className="property-images">
-          <img src="/property-1.jpg" alt="Cabin exterior" />
-          <img src="/property-2.jpg" alt="Cabin interior" />
+          <img src="/property-1.jpg" alt="Outdoor terrace with ocean view" />
+          <img src="/property-2.jpg" alt="Modern and cozy interior" />
         </div>
       </section>
 
       {/* Locale Section */}
       <section className="locale">
-        <h2>Locale</h2>
-        <p>The enchanting allure of the Mornington Peninsula.</p>
+        <h2>Discover Santa Maria</h2>
+        <p>From golden beaches to scenic hiking trails, immerse yourself in island life.</p>
         <div className="locale-images">
-          <img src="/locale-1.jpg" alt="Cliffs view" />
-          <img src="/locale-2.jpg" alt="Gourmet dish" />
+          <img src="/locale-1.jpg" alt="Stunning cliffs and ocean views" />
+          <img src="/locale-2.jpg" alt="Authentic Azorean cuisine" />
         </div>
       </section>
 
       {/* Reviews Section */}
       <section className="reviews">
-        <h2>Reviews</h2>
-        <p>Memorable experiences and cherished moments.</p>
+        <h2>Guest Experiences</h2>
+        <p>See what our guests say about their stay at Casa da Ponta Negra.</p>
         <div className="reviews-images">
-          <img src="/reviews-1.jpg" alt="Cozy cabin interior" />
-          <img src="/reviews-2.jpg" alt="Outdoor bathtub" />
+          <img src="/reviews-1.jpg" alt="Cozy living space with fireplace" />
+          <img src="/reviews-2.jpg" alt="Relaxing outdoor bathtub with nature views" />
         </div>
       </section>
 
-      {/* Indoors Section (Extras) */}
-      <div className="amenities">
-        <div className="amenity"><FaBed size={30} /><p>King size bed</p></div>
-        <div className="amenity"><FaRegSnowflake size={30} /><p>Comfortable pillows</p></div>
-        <div className="amenity"><FaFire size={30} /><p>Cozy fireplace</p></div>
-      </div>
+      {/* Indoors Section (Amenities) */}
+      <section className="amenities">
+        <h2>Comfort & Features</h2>
+        <p>Everything you need for an unforgettable stay.</p>
+        <div className="amenity-list">
+          <div className="amenity"><FaBed size={30} /><p>Spacious King Bed</p></div>
+          <div className="amenity"><FaRegSnowflake size={30} /><p>Premium Bedding & Pillows</p></div>
+          <div className="amenity"><FaFire size={30} /><p>Cozy Indoor Fireplace</p></div>
+        </div>
+      </section>
 
       <Footer />
     </div>
