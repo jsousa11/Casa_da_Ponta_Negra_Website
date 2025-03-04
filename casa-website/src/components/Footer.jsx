@@ -1,54 +1,44 @@
 import React from "react";
-import { FaInstagram, FaTiktok, FaTripadvisor, FaFacebook } from "react-icons/fa";
-import "../styles/Footer.css"; // Certifique-se de que este arquivo existe
+import { FaInstagram, FaFacebook, FaAirbnb } from "react-icons/fa";
+import { TbBrandBooking } from "react-icons/tb";
+import "../styles/Footer.css";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-top">
-        <h2>@BastionFlinders</h2>
-        <p>Follow us for updates.</p>
-
-        <div className="footer-gallery">
-          <img src="/gallery-1.jpg" alt="Food" />
-          <img src="/gallery-2.jpg" alt="Fireplace" />
-          <img src="/gallery-3.jpg" alt="Beach" />
-          <img src="/gallery-4.jpg" alt="Cabin" />
-        </div>
-
-        <div className="footer-social">
-          <a href="#"><FaInstagram /> Instagram</a>
-          <a href="#"><FaTiktok /> Tiktok</a>
-          <a href="#"><FaTripadvisor /> Tripadvisor</a>
-          <a href="#"><FaFacebook /> Facebook</a>
-        </div>
-      </div>
-
-      <div className="footer-bottom">
+      <div className="footer-container">
+        
+        {/* Logo */}
         <div className="footer-logo">
-          <h1>BASTION</h1>
-          <p>Far away from the suburbs.</p>
+          <img src="src/assets/V1_WHITE.png" alt="Casa da Ponta Negra logo" />
         </div>
 
-        <div className="footer-links">
-          <a href="#">Property</a>
-          <a href="#">Locale</a>
-          <a href="#">Reviews</a>
-          <a href="#">Journal</a>
-          <a href="#">Contact</a>
-        </div>
-
+        {/* Contato */}
         <div className="footer-contact">
           <h3>Contact</h3>
-          <p>hello@website.com</p>
-          <p>+613 (03) 4298 2180</p>
+          <p>pontanegrahouse@gmail.com</p>
+          <p>(+351) 963 504 856</p>
         </div>
 
+        {/* Endereço */}
         <div className="footer-address">
           <h3>Address</h3>
           <p>358 Lenora Road</p>
           <p>Flinders, Victoria 3929</p>
         </div>
+
+        {/* Redes Sociais */}
+        <div className="footer-social">
+          <a href="https://www.instagram.com/casapontanegra.sma/"><FaInstagram className="footer-icon" /></a>
+          <a href="https://www.facebook.com/profile.php?id=61552277438053"><FaFacebook className="footer-icon" /></a>
+          <a href="https://www.booking.com/hotel/pt/casa-da-ponta-negra-vila-do-porto.html?label=gen173nr-1BCAsouwFCIWNhc2EtZGEtcG9udGEtbmVncmEtdmlsYS1kby1wb3J0b0gxWARouwGIAQGYATG4ARnIAQzYAQHoAQGIAgGoAgO4AtCMnb4GwAIB0gIkYjg0MjNiMGQtNzk2Ny00OWUyLTlhNmQtYjA2NjQ2NzYxN2Jm2AIF4AIB&sid=f5b17de40a0a0b3cfcbc0a915bd5935b&dist=0&group_adults=2&group_children=0&keep_landing=1&no_rooms=1&sb_price_type=total&type=total&"><TbBrandBooking className="footer-icon" /></a>
+          <a href="https://www.airbnb.pt/rooms/993976971668808205?source_impression_id=p3_1741112895_P3Q_U5wSEDpjFoix"><FaAirbnb className="footer-icon" /></a>
+        </div>
+      </div>
+
+      {/* Direitos Autorais */}
+      <div className="footer-copy">
+        <p>&copy; 2024 Casa da Ponta Negra. All rights reserved.</p>
       </div>
     </footer>
   );

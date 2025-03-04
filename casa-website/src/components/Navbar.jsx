@@ -10,7 +10,7 @@ const Navbar = () => {
       <div className="container">
         {/* Logo */}
         <Link to="/" className="logo" onClick={() => setIsOpen(false)}>
-          BASTION
+          <img src="src/assets/V1_2.png" alt="Casa da Ponta Negra logo" />
         </Link>
 
         {/* Menu de navegação */}
@@ -18,12 +18,8 @@ const Navbar = () => {
           <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
           <Link to="/property" onClick={() => setIsOpen(false)}>Property</Link>
           <Link to="/locale" onClick={() => setIsOpen(false)}>Locale</Link>
-          <Link to="/reviews" onClick={() => setIsOpen(false)}>Reviews</Link>
           <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
         </div>
-
-        {/* Botão de "Book Now" */}
-        <Link to="/book" className="book-btn">Book Now</Link>
       </div>
     </nav>
   );

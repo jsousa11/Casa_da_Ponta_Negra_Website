@@ -13,98 +13,314 @@
   
   /* Hero Section */
   .hero {
-    text-align: center;
-    padding: 50px 20px;
+    position: relative;
+    text-align: left;
+    padding: 0px 10% 40px;
   }
-  
-  .hero h2 {
-    font-size: 36px;
+
+  /* Título e descrição */
+  .hero-text {
+    position: relative;
+    z-index: 2; /* Mantém o texto acima da imagem */
+    margin-bottom: 20px; /* Espaçamento entre o texto e a imagem */
+  }
+
+  .hero-text h2 {
+    font-size: 40px;
+    font-weight: bold;
     color: #2F3E29;
   }
-  
+
+  .hero-text p {
+    font-size: 18px;
+    color: #2F3E29;
+  }
+
+  /* Imagem */
   .hero img {
-    width: 90%;
-    max-width: 800px;
-    border-radius: 10px;
-    margin-top: 20px;
+    width: 100%; /* Ajusta o tamanho */
+    height: 75vh; /* Ajusta a altura */
+    object-fit: cover; /* Garante que a imagem preencha a área */
+    filter: brightness(70%); /* Pequeno escurecimento */
+    border-radius: 15px; /* Arredonda os cantos */
+    display: block;
+    margin: 0 auto; /* Centraliza horizontalmente */
   }
-  
+
   /* Property Section */
-  .property {
-    background-color: #43543E;
-    color: white;
-    text-align: center;
-    padding: 50px 20px;
-  }
-  
-  .property-images {
+  .property-section {
+    background-color: #2F3E29; /* Fundo verde escuro */
+    color: #F5EFE6; /* Texto claro */
+    padding: 40px 10%;
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
   }
-  
-  .property-images img {
-    width: 300px;
-    border-radius: 10px;
+
+  /* Texto */
+  .property-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center; /* Garante alinhamento vertical */
+    max-width: 40%;
   }
-  
+
+  .property-content h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .property-content p {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #A8B89F;
+    font-weight: 300;
+  }
+
+  .explore-button {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px dashed #F5EFE6;
+    color: #F5EFE6;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+    margin-bottom: 30px;
+  }
+
+  .explore-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Container das imagens */
+  .property-images-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; /* Mantém a imagem da direita no canto */
+    align-items: flex-end; /* Alinha as imagens na parte inferior */
+    gap: 40px;
+    width: 100%;
+  }
+
+  /* Imagem da esquerda */
+  .property-left-image img {
+    width: 800px;
+    height: 450px; /* Ajusta a altura para alinhar com a da direita */
+    border-radius: 12px;
+    object-fit: cover;
+    filter: brightness(90%);
+  }
+
+  /* Imagem da direita (vertical) */
+  .property-right-image img {
+    width: 450px;
+    height: 635px; /* Mantém a proporção vertical */
+    border-radius: 12px;
+    object-fit: cover;
+    filter: brightness(85%);
+    align-self: flex-end; /* Força o alinhamento inferior */
+  }
+
   /* Locale Section */
   .locale {
     background-color: #A8B89F;
-    text-align: center;
-    padding: 50px 20px;
+    padding: 30px 10%; /* Reduz espaço superior e inferior */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-  
+
+  /* Texto do Locale */
+  .locale-content {
+    flex: 1;
+    max-width: 40%;
+    align-items: right;
+    margin-left: 220px; /* Ajusta este valor conforme necessário */
+  }
+
+  .locale-content h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2F3E29;
+    margin-bottom: 10px;
+  }
+
+  .locale-content p {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #4F5D42;
+    font-weight: 300;
+  }
+
+  .locale-explore-button {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px dashed #2F3E29;
+    color: #2F3E29;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+    margin-bottom: 30px;
+  }
+
+  .explore-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Container de imagens */
   .locale-images {
+    flex: 1;
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
+    align-items: flex-end; /* Alinha imagens pela parte de baixo */
+    gap: 40px;
   }
-  
-  .locale-images img {
-    width: 300px;
-    border-radius: 10px;
+
+  /* Imagem da esquerda */
+  .locale-left-image img {
+    width: 800px;
+    height: 600px; /* Ajusta para ter mesma altura da direita */
+    border-radius: 12px;
+    object-fit: cover;
+    filter: brightness(80%);
   }
-  
-  /* Reviews Section */
-  .reviews {
-    background-color: #E5D4BA;
-    text-align: center;
-    padding: 50px 20px;
+
+  /* Imagem da direita */
+  .locale-right-image img {
+    width: 450px;
+    height: 395px; /* Mesma altura que a esquerda */
+    border-radius: 12px;
+    object-fit: cover;
+    filter: brightness(80%);
+    align-self: flex-end; /* Mantém alinhada na parte inferior */
   }
-  
-  .reviews-images {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .reviews-images img {
-    width: 300px;
-    border-radius: 10px;
-  }
-  
-  /* Indoors Section */
-  .indoors {
+
+  /* Secção de Reviews */
+  .reviews-section {
     background-color: #F5EFE6;
     text-align: center;
-    padding: 50px 20px;
-  }
-  
-  .amenities {
+    padding: 40px 10%;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    align-items: center;
   }
-  
-  .amenity {
+
+  /* Container principal */
+  .reviews-container {
+    max-width: 1000px;
+    text-align: center;
+  }
+
+  /* Título */
+  .reviews-container h2 {
+    font-size: 32px;
+    color: #2F3E29;
+    margin-bottom: 10px;
+  }
+
+  /* Subtítulo */
+  .reviews-container p {
+    font-size: 18px;
+    color: #4F5D42;
+    font-weight: 300;
+    margin-bottom: 30px;
+  }
+
+  /* Cartão de Review */
+  .review-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Efeito hover */
+  .review-card:hover {
+    transform: scale(1.02);
+  }
+
+  /* Nome e país do hóspede */
+  .review-header {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
     font-size: 18px;
+    font-weight: bold;
+    color: #2F3E29;
+    margin-bottom: 10px;
   }
-  
+
+  /* Bandeira */
+  .flag {
+    font-size: 24px;
+  }
+
+  /* Informação de noites e mês */
+  .review-details {
+    font-size: 14px;
+    color: #4F5D42;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 15px;
+  }
+
+  /* Ícones */
+  .review-icon {
+    font-size: 16px;
+    color: #4F5D42;
+    opacity: 0.7; /* Deixa os ícones menos chamativos */
+  }
+
+  /* Estrelas */
+  .review-stars {
+    font-size: 22px;
+    color: #FFD700; /* Mantém a cor dourada */
+    margin-bottom: 15px;
+  }
+
+  /* Texto da Review */
+  .review-text {
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  /* Botões de Navegação */
+  .review-navigation {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* Estilo dos botões */
+  .nav-button {
+    background: none;
+    border: 2px solid #2F3E29;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    color: #2F3E29;
+    transition: 0.3s ease-in-out;
+  }
+
+  /* Efeito hover dos botões */
+  .nav-button:hover {
+    background: #2F3E29;
+    color: #F5EFE6;
+  }
