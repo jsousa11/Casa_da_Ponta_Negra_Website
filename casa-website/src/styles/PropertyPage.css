@@ -1,72 +1,157 @@
+/* 1. Variáveis de Cor para controlo centralizado do tema */
+:root {
+  --color-dark-green: #2F3E29;
+  --color-medium-green: #43543E;
+  --color-light-green: #A8B89F;
+  --color-beige-light: #F5EFE6;
+  --color-beige-dark: #E5D4BA;
+  --color-white: #fff;
+  --color-text-light: #C8D1C6;
+}
+
 /* Hero Section */
 .property-hero {
-    width: 100%;
-    height: 500px;
-    overflow: hidden;
-  }
+  position: relative;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  color: var(--color-white);
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(47, 62, 41, 0.2) 60%, rgba(47, 62, 41, 0.7) 100%);
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  z-index: 2;
+  text-shadow: 0 2px 8px var(--color-dark-green);
+}
+
+.hero-text h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 22px;
+  max-width: 600px;
+}
+
+
+/* Secções de Funcionalidades (Indoors/Outdoors) */
+.feature-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+/* Temas de cores */
+.feature-section--dark { background-color: var(--color-medium-green); }
+.feature-section--accent { background-color: var(--color-beige-dark); }
+
+/* Textos dentro das secções */
+.feature-section h2 { font-size: 42px; }
+.feature-section p { font-size: 18px; margin-bottom: 30px; }
+
+/* Cores dos textos baseadas no tema */
+.feature-section--dark h2 { color: var(--color-white); }
+.feature-section--dark p { color: var(--color-text-light); }
+.feature-section--accent h2,
+.feature-section--accent p { color: var(--color-dark-green); }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: left;
+}
+/* Estilos dos itens baseados no tema */
+.feature-section--dark .feature-item { background: rgba(255, 255, 255, 0.1); color: var(--color-white); }
+.feature-section--accent .feature-item { background: rgba(47, 62, 41, 0.05); color: var(--color-dark-green); }
+
+.feature-item__icon { color: inherit; }
+
+
+/* Secção de Galeria Reutilizável */
+.gallery {
+  padding: 60px 20px;
+  text-align: center;
+}
+/* Temas de cores da galeria */
+.gallery--light { background-color: var(--color-beige-light); }
+.gallery--nature { background-color: var(--color-light-green); }
+
+.gallery__title {
+  color: var(--color-dark-green);
+  margin-bottom: 30px;
+  font-size: 42px;
+}
+
+.gallery__container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+/* Modificadores de layout */
+.gallery__container--grid { flex-wrap: wrap; }
+.gallery__container--row { flex-wrap: nowrap; }
+
+.gallery__image {
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 12px rgba(47, 62, 41, 0.08);
+}
+/* Estilos específicos para cada layout */
+.gallery__container--grid .gallery__image { width: 30%; min-width: 250px; }
+.gallery__container--row .gallery__image { width: 45%; min-width: 300px; }
+
+
+/* --- Media Queries --- */
+@media (max-width: 900px) {
+  .property-hero { height: 300px; }
+  .hero-text { left: 20px; bottom: 20px; }
+  .hero-text h1 { font-size: 36px; }
+  .hero-text p { font-size: 18px; }
   
-  .hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  .feature-section, .gallery { padding: 40px 10px; }
+  .feature-section h2, .gallery__title { font-size: 28px; }
   
-  /* Secções Reutilizáveis (Indoors e Outdoors) */
-  .feature-section {
-    text-align: center;
-    padding: 60px 20px;
-  }
+  .features-grid { grid-template-columns: 1fr; gap: 14px; max-width: 95vw; }
   
-  .feature-text h2 {
-    font-size: 42px;
-    color: white;
-  }
-  
-  .feature-text p {
-    font-size: 18px;
-    color: #C8D1C6;
-    margin-bottom: 30px;
-  }
-  
-  /* Grid de funcionalidades (amenidades e atividades) */
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    justify-content: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .feature-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 18px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 12px;
-    border-radius: 10px;
-  }
-  
-  .feature-item svg {
-    color: white;
-  }
-  
-  /* Gallery Section */
-  .gallery {
-    background-color: #43543E;
-    padding: 40px 20px;
-    text-align: center;
-  }
-  
-  .gallery-container {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .gallery-image {
-    width: 45%;
-    border-radius: 10px;
-  }
-  
+  .gallery__container { flex-direction: column; gap: 14px; align-items: center; }
+  .gallery__container--grid .gallery__image,
+  .gallery__container--row .gallery__image { width: 95%; min-width: 0; }
+}
+
+@media (max-width: 600px) {
+  .property-hero { height: 250px; }
+  .hero-text h1 { font-size: 28px; }
+  .hero-text p { font-size: 16px; }
+
+  .feature-section h2, .gallery__title { font-size: 24px; }
+  .feature-section p { font-size: 14px; }
+  .feature-item { font-size: 14px; padding: 10px; }
+}

@@ -1,61 +1,105 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import "../styles/LocalePage.css"; // Certifique-se de que este CSS está correto
+import "../styles/LocalePage.css";
 
+// Dados mantidos no topo do ficheiro para fácil acesso
 const places = [
   {
-    name: "Flinders Deli",
-    address: "5 Chester Ave, Flinders, VIC 3929",
-    website: "flindersdeli.com.au",
-    description: "Gourmet food, nibbles and wine."
+    name: "Central Pub",
+    address: "Praça 1º de Maio, Vila do Porto",
+    website: "https://facebook.com/centralpubsantamaria",
+    description: "Petiscos, hambúrgueres e ambiente descontraído no centro da vila."
   },
   {
-    name: "Hideaway Café",
-    address: "15 Shoreham Rd, Shoreham, VIC 3916",
-    website: "hideawaycafe.co",
-    description: "Breakfast, Lunch & Brunch."
+    name: "Espaço Em Cena",
+    address: "Rua Teófilo Braga, Vila do Porto",
+    website: "https://facebook.com/espacoemcena",
+    description: "Café cultural com refeições leves, brunch e eventos."
   },
   {
-    name: "Ember",
-    address: "52 Linden Grove, Merricks, VIC 3916",
-    website: "ember-restaurant.com.au",
-    description: "Fine-dining with a view to match."
+    name: "Restaurante Atlântico",
+    address: "Avenida de São João de Deus, Vila do Porto",
+    website: "https://facebook.com/restauranteatlanticosantamaria",
+    description: "Peixe fresco, mariscos e pratos regionais."
   },
   {
-    name: "Dandara Brewing",
-    address: "7 Rosewood Ct, Flinders, VIC 3929",
-    website: "dandara.com.au",
-    description: "Local beer, live music."
+    name: "Bar dos Anjos",
+    address: "Praia dos Anjos, Santa Maria",
+    website: "https://facebook.com/bardosanjos",
+    description: "Bar à beira-mar com tapas, cocktails e música ao pôr do sol."
   }
 ];
 
 const attractions = [
   {
-    name: "Cape Schanck Lighthouse",
-    address: "15 Shoreham Road, Shoreham",
-    directions: "#",
-    description: "A historic lighthouse with guided tours and spectacular coastal views."
+    name: "Praia Formosa",
+    address: "Praia Formosa, Santa Maria",
+    directions: "https://maps.app.goo.gl/9v8q9jv9v8q9jv9v8",
+    description: "A praia mais famosa da ilha, com areia clara e águas calmas."
   },
   {
-    name: "Mushroom Reef Marine Sanctuary",
-    address: "33 Highcliffe Road, Cape Schanck",
-    directions: "#",
-    description: "A unique ecosystem for snorkelling or diving."
+    name: "Poço da Pedreira",
+    address: "São Pedro, Santa Maria",
+    directions: "https://maps.app.goo.gl/poçodapedreira",
+    description: "Antiga pedreira transformada em lago, rodeada por falésias avermelhadas."
   },
   {
-    name: "Flinders Pier",
-    address: "52 Linden Grove, Merricks, VIC 3916",
-    directions: "#",
-    description: "A picturesque location for a stroll, fishing, or enjoying the views."
+    name: "Miradouro da Macela",
+    address: "Santa Bárbara, Santa Maria",
+    directions: "https://maps.app.goo.gl/miradourodasmacela",
+    description: "Vista panorâmica sobre a ilha e o oceano Atlântico."
   },
   {
-    name: "Montalto Vineyard & Olive Grove",
-    address: "7 Rosewood Ct, VIC 3929",
-    directions: "#",
-    description: "A renowned winery offering wine tastings, gourmet dining."
+    name: "Baía dos Anjos",
+    address: "Anjos, Santa Maria",
+    directions: "https://maps.app.goo.gl/baiadosanjos",
+    description: "Local histórico onde Cristóvão Colombo fez escala no regresso da América."
   }
 ];
+
+// --- Componentes Reutilizáveis Internos ---
+
+// Componente para renderizar cada item da lista (local ou atração)
+const InfoItem = ({ item }) => (
+  <div className="info-item">
+    <div className="info-text">
+      <h3>{item.name}</h3>
+      <p>{item.address}</p>
+      {item.website && (
+        <a href={item.website} target="_blank" rel="noopener noreferrer">
+          Visitar Website
+        </a>
+      )}
+      {item.directions && (
+        <a href={item.directions} target="_blank" rel="noopener noreferrer">
+          Ver no Mapa
+        </a>
+      )}
+    </div>
+    <p className="info-description">{item.description}</p>
+  </div>
+);
+
+// Componente para renderizar uma secção inteira (lista + imagem)
+const InfoSection = ({ title, items, imageSrc, imageAlt, sectionId }) => (
+  <section id={sectionId} className="info-section">
+    <div className="info-container">
+      <div className="info-list">
+        <h2>{title}</h2>
+        {items.map((item) => (
+          <InfoItem key={item.name} item={item} />
+        ))}
+      </div>
+      <div className="info-image-wrapper">
+        <img src={imageSrc} alt={imageAlt} className="info-image" />
+      </div>
+    </div>
+  </section>
+);
+
+
+// --- Componente Principal da Página ---
 
 const LocalePage = () => {
   return (
@@ -65,63 +109,32 @@ const LocalePage = () => {
       {/* Hero Section */}
       <section className="locale-hero">
         <div className="locale-text">
-          <h1>Locale</h1>
-          <p>The enchanting allure of picturesque Flinders.</p>
+          <h1>Santa Maria, Açores</h1>
+          <p>Descubra a autenticidade, a natureza e os sabores únicos da ilha mais solarenga dos Açores.</p>
         </div>
         <div className="locale-images">
-          <img src="/images/cliffs-view.jpg" alt="Cliffs view" className="locale-main-image" />
-          <img src="/images/gourmet-dish.jpg" alt="Gourmet dish" className="locale-secondary-image" />
-        </div>
-      </section>
-      {/* Eat & Drink Section */}
-      <section className="locale-section">
-        <h2>Eat & Drink</h2>
-        <div className="locale-container">
-          <div className="locale-list">
-            {places.map((place, index) => (
-              <div key={index} className="locale-item">
-                <div className="locale-text">
-                  <h3>{place.name}</h3>
-                  <p>{place.address}</p>
-                  <a href={`https://${place.website}`} target="_blank" rel="noopener noreferrer">
-                    {place.website}
-                  </a>
-                </div>
-                <p className="locale-description">{place.description}</p>
-                {index < places.length - 1 && <hr />}
-              </div>
-            ))}
-          </div>
-          <div className="locale-image">
-            <img src="/images/restaurant.jpg" alt="Dish" />
-          </div>
+          <img src="src/assets/praia-formosa.jpg" alt="Praia Formosa" className="locale-main-image" />
+          <img src="src/assets/poço-da-pedreira.jpg" alt="Poço da Pedreira" className="locale-secondary-image" />
         </div>
       </section>
 
-      {/* Attractions Section */}
-      <section className="attractions-section">
-        <h2>Attractions</h2>
-        <div className="attractions-container">
-          <div className="attractions-list">
-            {attractions.map((attraction, index) => (
-              <div key={index} className="attraction-item">
-                <div className="attraction-text">
-                  <h3>{attraction.name}</h3>
-                  <p>{attraction.address}</p>
-                  <a href={attraction.directions} target="_blank" rel="noopener noreferrer">
-                    Directions
-                  </a>
-                </div>
-                <p className="attraction-description">{attraction.description}</p>
-                {index < attractions.length - 1 && <hr />}
-              </div>
-            ))}
-          </div>
-          <div className="attractions-image">
-            <img src="/images/lighthouse.jpg" alt="Lighthouse" />
-          </div>
-        </div>
-      </section>
+      {/* Secções de conteúdo agora usam o componente reutilizável InfoSection */}
+      {/* Isto torna o código mais limpo e sem repetição */}
+      <InfoSection
+        sectionId="eat-drink-section"
+        title="Comer & Beber"
+        items={places}
+        imageSrc="src/assets/gastronomia.jpg"
+        imageAlt="Gastronomia local"
+      />
+      
+      <InfoSection
+        sectionId="attractions-section"
+        title="Atrações"
+        items={attractions}
+        imageSrc="src/assets/miradouro.jpg"
+        imageAlt="Miradouro"
+      />
 
       <Footer />
     </div>

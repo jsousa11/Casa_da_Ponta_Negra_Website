@@ -1,94 +1,143 @@
+/* Variáveis de Cor para Manutenção Fácil do Tema */
+:root {
+  --primary-bg: #F5EEE3;
+  --secondary-bg: #E5D4BA;
+  --text-primary: #2F3E29;
+  --text-secondary: #6B705C;
+  --border-color: #6B705C;
+}
+
 /* Hero Section */
 .locale-hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F5EEE3; /* Cor de fundo */
-    padding: 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    }
-    
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-bg);
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* Outros estilos do Hero podem continuar aqui... */
 
-/* Seção "Eat & Drink" */
-.locale-section {
-    background-color: #E5D4BA; /* Bege */
-    padding: 60px 20px;
+/* CLASSE GENÉRICA E REUTILIZÁVEL PARA AS SECÇÕES DE CONTEÚDO */
+.info-section {
+  padding: 60px 20px;
+}
+
+/* Fundo diferente para secções alternadas para melhor distinção visual */
+#eat-drink-section {
+  background-color: var(--secondary-bg);
+}
+
+#attractions-section {
+  background-color: var(--primary-bg);
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 0 auto;
+  gap: 30px; /* Espaçamento entre a lista e a imagem */
+}
+
+.info-list {
+  flex: 1; /* Ocupa o espaço disponível */
+}
+
+.info-list h2 {
+  font-size: 36px;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.info-item {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* SUBSTITUIÇÃO ELEGANTE DO <hr> POR UMA BORDA APENAS NOS ITENS QUE NÃO SÃO O ÚLTIMO */
+.info-item:not(:last-child) {
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.info-item h3 {
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+.info-item p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 5px 0;
+}
+
+.info-item a {
+  font-size: 14px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.info-item a:hover {
+  text-decoration: underline;
+}
+
+.info-description {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-style: italic;
+  margin-top: 5px;
+}
+
+.info-image-wrapper {
+  flex-basis: 150px; /* Define uma largura base para a imagem */
+  flex-shrink: 0; /* Impede que a imagem encolha */
+}
+
+.info-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Media Queries Refatorados com as novas classes genéricas */
+@media (max-width: 900px) {
+  .locale-hero {
+    flex-direction: column;
+    padding: 30px 5px;
+    gap: 20px;
   }
-  
-  /* Seção "Attractions" - Agora com fundo branco */
-  .attractions-section {
-    background-color: #F5EFE6; /* Branco */
-    padding: 60px 20px;
+  .info-section {
+    padding: 30px 5px;
   }
-  
-  /* Estilos Gerais */
-  .locale-section h2, .attractions-section h2 {
-    font-size: 36px;
-    color: #2F3E29;
-    margin-bottom: 20px;
+  .info-list h2 {
+    font-size: 24px;
+    text-align: center;
   }
-  
-  /* Containers */
-  .locale-container, .attractions-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1000px;
-    margin: 0 auto;
+  .info-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 2vw;
+    max-width: 98vw;
   }
-  
-  /* Listas */
-  .locale-list, .attractions-list {
-    flex: 1;
-    padding-right: 30px;
-  }
-  
-  .locale-item, .attraction-item {
-    margin-bottom: 20px;
-  }
-  
-  .locale-item h3, .attraction-item h3 {
-    font-size: 20px;
-    color: #2F3E29;
-  }
-  
-  .locale-item p, .attraction-item p {
-    font-size: 14px;
-    color: #6B705C;
-    margin: 5px 0;
-  }
-  
-  .locale-item a, .attraction-item a {
-    font-size: 14px;
-    color: #2F3E29;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .locale-item a:hover, .attraction-item a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Descrições */
-  .locale-description, .attraction-description {
-    font-size: 14px;
-    color: #2F3E29;
-    font-style: italic;
-    margin-top: 5px;
-  }
-  
-  /* Linhas Pontilhadas */
-  .locale-item hr, .attraction-item hr {
-    border: none;
-    border-top: 1px dashed #6B705C;
-    margin: 15px 0;
-  }
-  
-  /* Imagens */
-  .locale-image img, .attractions-image img {
+  .info-image-wrapper {
     width: 150px;
-    height: auto;
-    border-radius: 10px;
+    margin: 0 auto; /* Centra a imagem no layout de coluna */
   }
-  
+}
+
+@media (max-width: 600px) {
+  .locale-hero { padding: 15px 2px; }
+  .info-section { padding: 18px 2px; }
+  .info-list h2 { font-size: 18px; }
+  .info-item h3 { font-size: 16px; }
+  .info-item p,
+  .info-description,
+  .info-item a {
+    font-size: 12px;
+  }
+  .info-image-wrapper { width: 100px; }
+}

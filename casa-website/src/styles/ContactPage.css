@@ -1,61 +1,139 @@
+/* Adiciona variáveis de cor para fácil manutenção do tema */
+:root {
+  --background-color: #E5D4BA;
+  --primary-text-color: #2F3E29;
+  --secondary-text-color: #6B705C;
+  --border-color: #6B705C;
+  --background-hover-color: #2F3E29;
+  --success-color: #2F3E29;
+  --error-color: #9d2b2b;
+}
+
 /* Contact Section */
 .contact-section {
-    background-color: #E5D4BA;
+    background-color: var(--background-color);
     text-align: center;
     padding: 60px 20px;
-  }
-  
-  .contact-container {
+}
+
+.contact-container {
     max-width: 600px;
     margin: 0 auto;
-  }
-  
-  .contact-container h2 {
+}
+
+.contact-container h2 {
     font-size: 32px;
-    color: #2F3E29;
-  }
-  
-  .contact-container p {
+    color: var(--primary-text-color);
+}
+
+.contact-container p {
     font-size: 18px;
-    color: #6B705C;
+    color: var(--secondary-text-color);
     margin-bottom: 30px;
-  }
-  
-  /* Formulário */
-  .contact-form {
+}
+
+/* Formulário */
+.contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
+}
+
+.contact-form input,
+.contact-form textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #6B705C;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 16px;
     background: white;
-    color: #2F3E29;
-  }
-  
-  .contact-form textarea {
+    color: var(--primary-text-color);
+    box-sizing: border-box; /* Garante que o padding não afete a largura total */
+}
+
+.contact-form textarea {
     height: 120px;
-  }
-  
-  .contact-form button {
+    resize: vertical; /* Permite que o utilizador redimensione a área de texto */
+}
+
+.contact-form button {
     background: transparent;
-    border: 1px solid #2F3E29;
+    border: 1px solid var(--primary-text-color);
     padding: 10px 15px;
     font-size: 16px;
-    color: #2F3E29;
+    color: var(--primary-text-color);
     cursor: pointer;
     border-radius: 5px;
-    transition: 0.3s;
-  }
-  
-  .contact-form button:hover {
-    background: #2F3E29;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-form button:hover {
+    background: var(--background-hover-color);
     color: white;
-  }
-  
+}
+
+/* Novo: Estilo para o botão quando está desativado (a enviar) */
+.contact-form button:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Novo: Estilos para as mensagens de estado (sucesso e erro) */
+.status-message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.status-message.success {
+  color: var(--success-color);
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+  color: var(--error-color);
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+/* Novo: Classe para acessibilidade, esconde as labels mas mantém-nas para leitores de ecrã */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (max-width: 700px) {
+    .contact-section {
+        padding: 30px 5px;
+    }
+    .contact-container {
+        max-width: 98vw;
+        padding: 0 2vw;
+    }
+    .contact-container h2 {
+        font-size: 22px;
+    }
+    .contact-container p {
+        font-size: 15px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 15px;
+        padding: 10px;
+    }
+    .contact-form button {
+        font-size: 15px;
+        padding: 8px 10px;
+    }
+}
