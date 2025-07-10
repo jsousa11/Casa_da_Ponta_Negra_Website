@@ -58,4 +58,28 @@
     background: #2F3E29;
     color: white;
   }
-  
+
+  @media (max-width: 700px) {
+    .contact-section {
+      padding: 30px 5px;
+    }
+    .contact-container {
+      max-width: 98vw;
+      padding: 0 2vw;
+    }
+    .contact-container h2 {
+      font-size: 22px;
+    }
+    .contact-container p {
+      font-size: 15px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      font-size: 15px;
+      padding: 10px;
+    }
+    .contact-form button {
+      font-size: 15px;
+      padding: 8px 10px;
+    }
+  }

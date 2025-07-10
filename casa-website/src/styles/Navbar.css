@@ -1,9 +1,21 @@
 /* Navbar */
 .navbar {
-  background-color: #F5EFE6; /* Cor de fundo clean */
+  background: rgba(245, 239, 230, 0.95); /* Já começa levemente translúcida */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background 0.3s, box-shadow 0.3s, height 0.3s;
+  box-shadow: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  will-change: backdrop-filter, background;
+}
+
+.navbar.scrolled {
+  background: rgba(245, 239, 230, 0.35); /* Bem mais transparente */
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  backdrop-filter: blur(8px); /* Efeito de blur no fundo */
 }
 
 /* Container */
@@ -12,7 +24,12 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  transition: height 0.3s;
   height: 130px;
+}
+
+.navbar.scrolled .container {
+  height: 90px;
 }
 
 /* Logo */
@@ -27,6 +44,11 @@
   object-fit: contain;
   margin-top: 5px; /* Ajusta este valor se necessário */
   margin-left: 170px;
+  transition: width 0.3s;
+}
+
+.navbar.scrolled .logo img {
+  width: 110px;
 }
 
 /* Links da Navbar */
@@ -47,4 +69,43 @@
 
 .nav-links a:hover {
   color: #3D5C2C; /* Efeito ao passar o mouse */
+}
+
+/* Media Queries */
+@media (max-width: 900px) {
+  .container {
+    height: 90px;
+  }
+  .logo img {
+    margin-left: 20px;
+    width: 110px;
+  }
+  .nav-links {
+    gap: 25px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 5px;
+  }
+  .container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0;
+  }
+  .logo img {
+    margin-left: 0;
+    width: 90px;
+  }
+  .nav-links {
+    gap: 12px;
+    margin-right: 0;
+    font-size: 15px;
+  }
+  .nav-links a {
+    font-size: 15px;
+    padding: 4px 0;
+  }
 }

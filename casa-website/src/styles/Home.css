@@ -324,3 +324,134 @@
     background: #2F3E29;
     color: #F5EFE6;
   }
+
+  .review-card.fade {
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .review-card {
+    transition: opacity 0.25s;
+  }
+  .see-more {
+    font-size: 15px;
+    text-decoration: underline;
+  }
+
+/* Responsividade geral */
+@media (max-width: 1100px) {
+  .property-section,
+  .locale {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 30px 4%;
+  }
+  .property-content,
+  .locale-content {
+    max-width: 100%;
+    margin-left: 0;
+    margin-bottom: 30px;
+  }
+  .property-images-container,
+  .locale-images {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  .property-left-image img,
+  .locale-left-image img,
+  .property-right-image img,
+  .locale-right-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding: 0 2% 20px;
+  }
+  .hero-text h2 {
+    font-size: 26px;
+  }
+  .hero-text p {
+    font-size: 15px;
+  }
+  .hero img {
+    height: 35vh;
+    border-radius: 8px;
+  }
+  .property-section,
+  .locale {
+    padding: 20px 2%;
+  }
+  .property-content h2,
+  .locale-content h2 {
+    font-size: 22px;
+  }
+  .property-content p,
+  .locale-content p {
+    font-size: 15px;
+  }
+  .explore-button,
+  .locale-explore-button {
+    font-size: 15px;
+    padding: 8px 14px;
+  }
+  .property-left-image img,
+  .locale-left-image img,
+  .property-right-image img,
+  .locale-right-image img {
+    max-width: 100vw;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .reviews-section {
+    padding: 20px 2%;
+  }
+  .review-card {
+    padding: 16px;
+    border-radius: 8px;
+  }
+  .reviews-container h2 {
+    font-size: 20px;
+  }
+  .reviews-container p {
+    font-size: 14px;
+  }
+  .review-header {
+    font-size: 15px;
+    gap: 6px;
+  }
+  .flag {
+    font-size: 20px !important;
+  }
+  .review-details {
+    font-size: 12px;
+  }
+  .review-stars {
+    font-size: 16px;
+  }
+  .review-text {
+    font-size: 14px;
+  }
+  .nav-button {
+    font-size: 18px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero img,
+  .property-left-image img,
+  .locale-left-image img,
+  .property-right-image img,
+  .locale-right-image img {
+    height: 120px !important;
+    min-height: 80px;
+  }
+  .review-card {
+    padding: 8px;
+  }
+}

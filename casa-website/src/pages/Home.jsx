@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FaStar, FaArrowLeft, FaArrowRight,FaBed, FaCalendarAlt } from "react-icons/fa";
+import { FaStar, FaArrowLeft, FaArrowRight, FaBed, FaCalendarAlt } from "react-icons/fa";
+import "../styles/Home.css";
 
 const reviews = [
   {
@@ -51,19 +52,40 @@ const reviews = [
   },
 ];
 
+const MAX_STARS = 5;
+const MAX_TEXT_LENGTH = 160; // caracteres antes de "ver mais"
 
 const Home = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [index, setIndex] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [fade, setFade] = useState(false);
 
   const nextReview = () => {
-    setIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    setFade(true);
+    setTimeout(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+      setExpanded(false);
+      setFade(false);
+    }, 250);
   };
 
   const prevReview = () => {
-    setIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
+    setFade(true);
+    setTimeout(() => {
+      setIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
+      setExpanded(false);
+      setFade(false);
+    }, 250);
   };
+
+  const review = reviews[index];
+  const starsFilled = Math.round(review.score / 2);
+
+  // Texto limitado + botão "ver mais"
+  const reviewText =
+    expanded || review.text.length <= MAX_TEXT_LENGTH
+      ? review.text
+      : review.text.slice(0, MAX_TEXT_LENGTH) + "...";
 
   return (
     <div>
@@ -75,7 +97,7 @@ const Home = () => {
           <h2>Your Private Escape in Santa Maria</h2>
           <p>Experience the tranquility of the Azores with breathtaking ocean views.</p>
         </div>
-        <img src="src/assets/2603.jpg" alt="Casa da Ponta Negra view" />
+        <img src="src/assets/coast.jpg" alt="Casa da Ponta Negra view" />
       </section>
 
       {/* Property Section */}
@@ -85,13 +107,13 @@ const Home = () => {
           <p>A retreat designed for relaxation and comfort.</p>
           <a href="/property" className="explore-button">Explore Property</a>
           <div className="property-left-image">
-            <img src="src/assets/201.jpg" alt="Outdoor view" />
+            <img src="src/assets/view.jpg" alt="Outdoor view" />
           </div>
         </div>
 
         <div className="property-images-container">
           <div className="property-right-image">
-            <img src="src/assets/IMG_2599.jpg" alt="Cozy interior" />
+            <img src="src/assets/livingroom.jpg" alt="Cozy interior" />
           </div>
         </div>
       </section>
@@ -107,7 +129,7 @@ const Home = () => {
           <p>From golden beaches to scenic hiking trails, immerse yourself in island life.</p>
           <a href="/locale" className="locale-explore-button">Explore Locale</a>
           <div className="locale-right-image">
-            <img src="src/assets/IMG_2595.jpg" alt="Authentic Azorean cuisine" />
+            <img src="src/assets/cuisine.jpeg" alt="Authentic Azorean cuisine" />
           </div>
         </div>
       </section>
@@ -118,28 +140,51 @@ const Home = () => {
           <h2>Guest Experiences</h2>
           <p>See what our guests say about their stay at Casa da Ponta Negra.</p>
 
-          <div className="review-card">
+          <div className={`review-card${fade ? " fade" : ""}`}>
             {/* Nome e Bandeira */}
             <div className="review-header">
-              <span className="flag">{reviews[index].country}</span>
-              <span>{reviews[index].name}, {reviews[index].location}</span>
+              <span className="flag" style={{ fontSize: 32 }}>{review.country}</span>
+              <span style={{ fontWeight: "bold", marginLeft: 8 }}>{review.name}</span>
+              <span style={{ color: "#888", marginLeft: 8 }}>{review.location}</span>
             </div>
 
             {/* Informação das noites e mês */}
             <div className="review-details">
-              <FaBed className="review-icon" /> {reviews[index].nights} nights
-              <FaCalendarAlt className="review-icon" /> {reviews[index].month}
+              <FaBed className="review-icon" /> {review.nights} nights
+              <FaCalendarAlt className="review-icon" /> {review.month}
             </div>
 
             {/* Estrelas (Score) */}
             <div className="review-stars">
-              {[...Array(reviews[index].score / 2)].map((_, i) => (
-                <FaStar key={i} className="star-icon" />
+              {[...Array(MAX_STARS)].map((_, i) => (
+                <FaStar
+                  key={i}
+                  className="star-icon"
+                  style={{ color: i < starsFilled ? "#FFD700" : "#E0E0E0" }}
+                />
               ))}
             </div>
 
             {/* Texto da Review */}
-            <p className="review-text">“{reviews[index].text}”</p>
+            <p className="review-text">
+              “{reviewText}”
+              {review.text.length > MAX_TEXT_LENGTH && (
+                <button
+                  className="see-more"
+                  onClick={() => setExpanded((v) => !v)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#3D5C2C",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    marginLeft: 6,
+                  }}
+                >
+                  {expanded ? "ver menos" : "ver mais"}
+                </button>
+              )}
+            </p>
 
             {/* Botões de Navegação */}
             <div className="review-navigation">
