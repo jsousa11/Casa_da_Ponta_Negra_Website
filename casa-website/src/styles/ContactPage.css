@@ -1,106 +1,164 @@
-/* Adiciona variáveis de cor para fácil manutenção do tema */
+/* ==========================================
+   CONTACT PAGE — Soft & Responsive
+   ========================================== */
+
 :root {
-  --background-color: #E5D4BA;
+  --background-color: #F5EFE6;
   --primary-text-color: #2F3E29;
   --secondary-text-color: #6B705C;
-  --border-color: #6B705C;
+  --border-color: #d6cfc4;
   --background-hover-color: #2F3E29;
   --success-color: #2F3E29;
   --error-color: #9d2b2b;
 }
 
-/* Contact Section */
 .contact-section {
-    background-color: var(--background-color);
-    text-align: center;
-    padding: 60px 20px;
+  background-color: var(--background-color);
+  text-align: center;
+  padding: 110px 20px 48px;
 }
 
 .contact-container {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 560px;
+  margin: 0 auto;
 }
 
 .contact-container h2 {
-    font-size: 32px;
-    color: var(--primary-text-color);
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--primary-text-color);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
 }
 
-.contact-container p {
-    font-size: 18px;
-    color: var(--secondary-text-color);
-    margin-bottom: 30px;
+.contact-container > p {
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  font-weight: 300;
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+
+/* Info block (address + email) */
+.contact-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 36px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  text-align: left;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.contact-info-icon {
+  color: var(--primary-text-color);
+  font-size: 15px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.contact-info-item a {
+  color: var(--secondary-text-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-info-item a:hover {
+  color: var(--primary-text-color);
 }
 
 /* Formulário */
 .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .contact-form input,
 .contact-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 16px;
-    background: white;
-    color: var(--primary-text-color);
-    box-sizing: border-box; /* Garante que o padding não afete a largura total */
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--primary-text-color);
+  box-sizing: border-box;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #a8b89f;
+  box-shadow: 0 0 0 3px rgba(168, 184, 159, 0.18);
 }
 
 .contact-form textarea {
-    height: 120px;
-    resize: vertical; /* Permite que o utilizador redimensione a área de texto */
+  height: 100px;
+  resize: vertical;
 }
 
 .contact-form button {
-    background: transparent;
-    border: 1px solid var(--primary-text-color);
-    padding: 10px 15px;
-    font-size: 16px;
-    color: var(--primary-text-color);
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+  background: transparent;
+  border: 1px solid var(--primary-text-color);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  border-radius: 30px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .contact-form button:hover {
-    background: var(--background-hover-color);
-    color: white;
+  background: var(--background-hover-color);
+  color: #F5EFE6;
 }
 
-/* Novo: Estilo para o botão quando está desativado (a enviar) */
 .contact-form button:disabled {
-    background-color: #ccc;
-    border-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
-/* Novo: Estilos para as mensagens de estado (sucesso e erro) */
 .status-message {
   margin-top: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .status-message.success {
   color: var(--success-color);
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
+  background-color: #e8f0e4;
+  border: 1px solid #c3d9bb;
 }
 
 .status-message.error {
   color: var(--error-color);
-  background-color: #f8d7da;
+  background-color: #fdf0f0;
   border: 1px solid #f5c6cb;
 }
 
-/* Novo: Classe para acessibilidade, esconde as labels mas mantém-nas para leitores de ecrã */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -113,27 +171,35 @@
   border-width: 0;
 }
 
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
 @media (max-width: 700px) {
-    .contact-section {
-        padding: 30px 5px;
-    }
-    .contact-container {
-        max-width: 98vw;
-        padding: 0 2vw;
-    }
-    .contact-container h2 {
-        font-size: 22px;
-    }
-    .contact-container p {
-        font-size: 15px;
-    }
-    .contact-form input,
-    .contact-form textarea {
-        font-size: 15px;
-        padding: 10px;
-    }
-    .contact-form button {
-        font-size: 15px;
-        padding: 8px 10px;
-    }
+  .contact-section {
+    padding: 100px 5% 40px;
+  }
+  .contact-container {
+    max-width: 100%;
+  }
+  .contact-container h2 {
+    font-size: 28px;
+  }
+  .contact-container > p {
+    font-size: 14px;
+  }
+  .contact-info-block {
+    padding: 16px 16px;
+  }
+  .contact-info-item {
+    font-size: 13px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+  .contact-form button {
+    font-size: 13px;
+  }
 }

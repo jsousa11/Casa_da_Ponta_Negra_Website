@@ -1,21 +1,27 @@
-/* Navbar */
+/* ==========================================
+   NAVBAR — Soft & Responsive
+   ========================================== */
+
 .navbar {
-  background: rgba(245, 239, 230, 0.95); /* Já começa levemente translúcida */
+  background: linear-gradient(180deg, rgba(10, 16, 10, 0.38) 0%, transparent 100%);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s, box-shadow 0.3s, height 0.3s;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
   box-shadow: none;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-  will-change: backdrop-filter, background;
+  will-change: background, backdrop-filter;
 }
 
 .navbar.scrolled {
-  background: rgba(245, 239, 230, 0.35); /* Bem mais transparente */
-  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
-  backdrop-filter: blur(8px); /* Efeito de blur no fundo */
+  background: rgba(245, 239, 230, 0.70);
+  box-shadow: 0 2px 20px rgba(47, 62, 41, 0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 /* Container */
@@ -24,88 +30,163 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  transition: height 0.3s;
-  height: 130px;
+  transition: height 0.3s ease;
+  height: 110px;
+  padding: 0 60px;
 }
 
 .navbar.scrolled .container {
-  height: 90px;
+  height: 76px;
 }
 
 /* Logo */
 .logo {
   display: flex;
-  align-items: center; /* Alinha verticalmente */
+  align-items: center;
 }
 
 .logo img {
-  width: 150px;
+  width: 130px;
   height: auto;
   object-fit: contain;
-  margin-top: 5px; /* Ajusta este valor se necessário */
-  margin-left: 170px;
-  transition: width 0.3s;
+  transition: width 0.3s ease, opacity 0.3s ease, filter 0.35s ease;
+  opacity: 0.92;
+  filter: invert(1) brightness(2);
+}
+
+.logo img:hover {
+  opacity: 1;
 }
 
 .navbar.scrolled .logo img {
-  width: 110px;
+  width: 100px;
+  filter: none;
 }
 
 /* Links da Navbar */
 .nav-links {
   display: flex;
-  gap: 60px; /* Aumenta espaçamento entre links */
-  margin-right: 190px;
+  gap: 44px;
 }
 
 .nav-links a {
   text-decoration: none;
-  font-size: 20px; /* Aumenta um pouco o tamanho */
-  font-weight: 600; /* Torna as letras mais grossas */
-  color: #2F3E29;
-  transition: 0.3s ease-in-out;
-  letter-spacing: 0.5px; /* Pequeno espaçamento entre letras */
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  transition: color 0.25s ease, opacity 0.25s ease;
+  opacity: 0.9;
 }
 
 .nav-links a:hover {
-  color: #3D5C2C; /* Efeito ao passar o mouse */
+  color: #fff;
+  opacity: 1;
 }
 
-/* Media Queries */
+.navbar.scrolled .nav-links a {
+  color: #2F3E29;
+  opacity: 0.85;
+}
+
+.navbar.scrolled .nav-links a:hover {
+  color: #2F3E29;
+  opacity: 1;
+}
+
+/* Language Toggle */
+.lang-toggle {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.50);
+  border-radius: 20px;
+  padding: 4px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  color: rgba(255, 255, 255, 0.75);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+
+.lang-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.90);
+  color: #fff;
+}
+
+.lang-active {
+  color: #fff;
+  font-weight: 700;
+}
+
+.lang-divider {
+  opacity: 0.45;
+}
+
+.navbar.scrolled .lang-toggle {
+  border-color: rgba(47, 62, 41, 0.35);
+  color: rgba(47, 62, 41, 0.70);
+}
+
+.navbar.scrolled .lang-toggle:hover {
+  border-color: #2F3E29;
+  color: #2F3E29;
+}
+
+.navbar.scrolled .lang-active {
+  color: #2F3E29;
+  font-weight: 700;
+}
+
+.navbar.scrolled .lang-divider {
+  opacity: 0.35;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
 @media (max-width: 900px) {
   .container {
-    height: 90px;
+    height: 82px;
+    padding: 0 28px;
   }
   .logo img {
-    margin-left: 20px;
-    width: 110px;
+    width: 100px;
   }
   .nav-links {
-    gap: 25px;
-    margin-right: 20px;
+    gap: 24px;
+  }
+  .nav-links a {
+    font-size: 13px;
   }
 }
 
 @media (max-width: 600px) {
-  .navbar {
-    padding: 0 5px;
-  }
   .container {
     flex-direction: column;
     height: auto;
-    padding: 10px 0;
+    padding: 12px 16px;
+    gap: 8px;
   }
   .logo img {
-    margin-left: 0;
-    width: 90px;
+    width: 88px;
+  }
+  .navbar.scrolled .container {
+    height: auto;
   }
   .nav-links {
-    gap: 12px;
-    margin-right: 0;
-    font-size: 15px;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .nav-links a {
-    font-size: 15px;
-    padding: 4px 0;
+    font-size: 12px;
+    letter-spacing: 0.10em;
   }
 }

@@ -1,41 +1,88 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FaTree, FaBicycle, FaWineGlassAlt, FaHiking, FaLeaf, FaBath, FaBed, FaRegSnowflake, FaFire, FaUtensils, FaArchive } from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
+import {
+  FaWifi, FaTv, FaSnowflake, FaUtensils, FaBath, FaBed,
+  FaTshirt, FaParking, FaHotTub, FaTree, FaSun, FaUmbrellaBeach,
+  FaFire, FaShower, FaDumbbell
+} from "react-icons/fa";
 import "../styles/PropertyPage.css";
 
-// --- Dados da Página ---
-const mainGalleryImages = [
-  "view.jpg", "livingroom.jpg", "bedroom_1.jpg", 
-  "bedroom_2.jpg", "bathroom_1.jpg", "kitchen.jpg", 
-  "view_jacuzzi.jpg", "view_balcony.jpg",
+const galleryImages = [
+  { src: "front_house.jpg", alt: "Casa da Ponta Negra - Exterior" },
+  { src: "view.jpg", alt: "Vista para o mar" },
+  { src: "livingroom.jpg", alt: "Sala de estar" },
+  { src: "bedroom_1.jpg", alt: "Quarto principal" },
+  { src: "bedroom_2.jpg", alt: "Quarto secundário" },
+  { src: "bathroom_1.jpg", alt: "Casa de banho" },
+  { src: "kitchen.jpg", alt: "Cozinha" },
+  { src: "view_jacuzzi.jpg", alt: "Jacuzzi com vista mar" },
+  { src: "view_balcony.jpg", alt: "Varanda com vista" },
 ];
 
-const natureGalleryImages = [
-  "beach_view.jpg", 
-  "ribeira-de-maloas-6.jpg"
-];
+const indoorIcons = [FaBed, FaSnowflake, FaWifi, FaTv, FaUtensils, FaBath, FaTshirt];
+const outdoorIcons = [FaHotTub, FaSun, FaTree, FaUmbrellaBeach, FaShower, FaDumbbell, FaFire];
 
-const indoorFeatures = [
-  { icon: FaBed, text: "2 quartos com camas king & queen" },
-  { icon: FaRegSnowflake, text: "Almofadas e lençóis confortáveis" },
-  { icon: FaFire, text: "Lareira acolhedora" },
-  { icon: FaBath, text: "Casa de banho moderna" },
-  { icon: FaUtensils, text: "Cozinha totalmente equipada" },
-  { icon: FaArchive, text: "Amplo armazenamento" }
-];
+// --- Galeria com grid + lightbox ---
+const Gallery = ({ images, galleryTitle }) => {
+  const [lightboxIdx, setLightboxIdx] = useState(null);
+  const total = images.length;
+  const isOpen = lightboxIdx !== null;
 
-const outdoorFeatures = [
-  { icon: FaTree, text: "Jardim privado e natureza envolvente" },
-  { icon: FaBicycle, text: "Trilhos para BTT e caminhadas" },
-  { icon: FaWineGlassAlt, text: "Refeições ao ar livre e BBQ" },
-  { icon: FaHiking, text: "Acesso direto à praia" },
-  { icon: FaLeaf, text: "Vistas para o mar e pôr do sol" },
-  { icon: FaBath, text: "Chuveiro exterior" }
-];
+  const open = (idx) => setLightboxIdx(idx);
+  const close = () => setLightboxIdx(null);
+  const prev = (e) => { e.stopPropagation(); setLightboxIdx((i) => (i - 1 + total) % total); };
+  const next = (e) => { e.stopPropagation(); setLightboxIdx((i) => (i + 1) % total); };
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e) => {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") setLightboxIdx((i) => (i - 1 + total) % total);
+      else if (e.key === "ArrowRight") setLightboxIdx((i) => (i + 1) % total);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isOpen, total]);
 
-// --- Componentes Reutilizáveis ---
+  return (
+    <section className="gallery gallery--light">
+      <h2 className="gallery__title">{galleryTitle}</h2>
+      <div className="gallery__grid">
+        {images.map((img, idx) => (
+          <div
+            className="gallery__item"
+            key={idx}
+            onClick={() => open(idx)}
+            tabIndex={0}
+            role="button"
+            aria-label={`Ver ${img.alt}`}
+            onKeyDown={(e) => e.key === "Enter" && open(idx)}
+          >
+            <img src={`src/assets/${img.src}`} alt={img.alt} className="gallery__thumb" loading="lazy" />
+            <div className="gallery__item-overlay" />
+          </div>
+        ))}
+      </div>
+
+      {isOpen && (
+        <div className="lightbox" onClick={close} role="dialog" aria-modal="true">
+          <button className="lightbox__close" onClick={close} aria-label="Fechar">&#10005;</button>
+          <button className="lightbox__btn lightbox__btn--left" onClick={prev} aria-label="Anterior">&#8249;</button>
+          <img
+            src={`src/assets/${images[lightboxIdx].src}`}
+            alt={images[lightboxIdx].alt}
+            className="lightbox__img"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button className="lightbox__btn lightbox__btn--right" onClick={next} aria-label="Próxima">&#8250;</button>
+          <div className="lightbox__counter">{lightboxIdx + 1} / {total}</div>
+        </div>
+      )}
+    </section>
+  );
+};
 
 const FeatureSection = ({ title, subtitle, features, theme }) => (
   <section className={`feature-section feature-section--${theme}`}>
@@ -46,7 +93,7 @@ const FeatureSection = ({ title, subtitle, features, theme }) => (
     <div className="features-grid">
       {features.map(({ icon: Icon, text }, index) => (
         <div className="feature-item" key={index}>
-          <Icon size={24} className="feature-item__icon" />
+          <Icon size={20} className="feature-item__icon" />
           <p>{text}</p>
         </div>
       ))}
@@ -54,26 +101,12 @@ const FeatureSection = ({ title, subtitle, features, theme }) => (
   </section>
 );
 
-const GallerySection = ({ title, images, theme, layout }) => (
-  <section className={`gallery gallery--${theme}`}>
-    <h2 className="gallery__title">{title}</h2>
-    <div className={`gallery__container gallery__container--${layout}`}>
-      {images.map((img, idx) => (
-        <img
-          key={img}
-          src={`src/assets/${img}`}
-          alt={`${title} ${idx + 1}`}
-          className="gallery__image"
-        />
-      ))}
-    </div>
-  </section>
-);
-
-
-// --- Componente Principal ---
-
 const PropertyPage = () => {
+  const { t } = useLanguage();
+
+  const indoorFeatures = indoorIcons.map((icon, i) => ({ icon, text: t.property.features.indoor[i] }));
+  const outdoorFeatures = outdoorIcons.map((icon, i) => ({ icon, text: t.property.features.outdoor[i] }));
+
   return (
     <div>
       <Navbar />
@@ -83,43 +116,30 @@ const PropertyPage = () => {
           src="src/assets/front_house.jpg"
           alt="Casa da Ponta Negra - Exterior"
           className="hero-image"
+          fetchpriority="high"
         />
         <div className="hero-overlay" />
         <div className="hero-text">
           <h1>Casa da Ponta Negra</h1>
-          <p>
-            Um refúgio tranquilo à beira-mar em Santa Maria, Açores. Desfrute de privacidade, conforto e vistas deslumbrantes a poucos passos da areia.
-          </p>
+          <p>{t.property.heroText}</p>
         </div>
       </header>
-      
+
       <main>
-        <GallerySection
-          title="Galeria"
-          images={mainGalleryImages}
-          theme="light"
-          layout="grid"
-        />
+        <Gallery images={galleryImages} galleryTitle={t.property.galleryTitle} />
 
         <FeatureSection
-          title="Interiores"
-          subtitle="Uma atmosfera convidativa para o repouso e recreação tranquila."
+          title={t.property.interiorTitle}
+          subtitle={t.property.interiorSubtitle}
           features={indoorFeatures}
           theme="accent"
         />
 
         <FeatureSection
-          title="Exteriores"
-          subtitle="Um santuário para o lazer e exploração energizante."
+          title={t.property.exteriorTitle}
+          subtitle={t.property.exteriorSubtitle}
           features={outdoorFeatures}
           theme="dark"
-        />
-
-        <GallerySection
-          title="Praia & Natureza"
-          images={natureGalleryImages}
-          theme="nature"
-          layout="row"
         />
       </main>
 

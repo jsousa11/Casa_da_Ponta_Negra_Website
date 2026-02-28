@@ -1,8 +1,10 @@
-# React + Vite
+# 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+falta:
 
-Currently, two official plugins are available:
+meter os contactos e tal no contact ao lado da parte de mensagens. num lado ter os contactos e endereço e no outro o que ja tem das mensagens
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+no guest meter por cards tipo como tem no locale os places to visit.
+
+
+se calhar fazer algum tipo de pedido de reserva com datas e tal como booking e tendo as as fatas preenchidas e tal n sei se é fazivel.

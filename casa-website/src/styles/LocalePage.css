@@ -1,30 +1,218 @@
-/* Variáveis de Cor para Manutenção Fácil do Tema */
+/* ==========================================
+   LOCALE PAGE — Soft & Responsive
+   ========================================== */
+
 :root {
   --primary-bg: #F5EEE3;
   --secondary-bg: #E5D4BA;
   --text-primary: #2F3E29;
   --text-secondary: #6B705C;
-  --border-color: #6B705C;
+  --border-color: #d4ccbf;
 }
 
 /* Hero Section */
 .locale-hero {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  color: #fff;
+}
+
+.locale-hero__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(80%);
+}
+
+.locale-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,30,18,0.15) 30%, rgba(20,30,18,0.80) 100%);
+}
+
+.locale-hero__text {
+  position: absolute;
+  bottom: 48px;
+  left: 52px;
+  z-index: 2;
+  text-shadow: 0 2px 12px rgba(47,62,41,0.4);
+}
+
+.locale-hero__text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 52px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.locale-hero__text p {
+  font-size: 18px;
+  font-weight: 300;
+  max-width: 560px;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+
+/* Attractions Slider */
+.attractions-section {
+  padding: 72px 7%;
+  background-color: var(--primary-bg);
+}
+
+.attractions-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.attractions-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.attractions-header p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.attractions-carousel {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: var(--primary-bg);
-  padding: 60px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 12px;
 }
-/* Outros estilos do Hero podem continuar aqui... */
 
-/* CLASSE GENÉRICA E REUTILIZÁVEL PARA AS SECÇÕES DE CONTEÚDO */
+.attractions-arrow {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(47, 62, 41, 0.35);
+  background: rgba(245, 239, 230, 0.85);
+  color: #2F3E29;
+  font-size: 32px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  padding-bottom: 2px;
+}
+
+.attractions-arrow:hover {
+  background: #2F3E29;
+  color: #F5EFE6;
+  border-color: #2F3E29;
+}
+
+.attractions-slider {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1;
+}
+
+.attractions-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.attraction-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(47,62,41,0.10);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.attraction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 36px rgba(47,62,41,0.18);
+}
+
+.attraction-card__img-wrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.attraction-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.attraction-card:hover .attraction-card__img-wrap img {
+  transform: scale(1.06);
+}
+
+.attraction-card__body {
+  padding: 20px 18px;
+}
+
+.attraction-card__body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.attraction-card__body p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.attractions-footer {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.attractions-more-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  border: 1px solid rgba(47, 62, 41, 0.45);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+  background: transparent;
+}
+
+.attractions-more-btn:hover {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: #F5EFE6;
+}
+
+
 .info-section {
-  padding: 60px 20px;
+  padding: 72px 7%;
 }
 
-/* Fundo diferente para secções alternadas para melhor distinção visual */
 #eat-drink-section {
   background-color: var(--secondary-bg);
 }
@@ -37,107 +225,151 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: 1000px;
+  max-width: 960px;
   margin: 0 auto;
-  gap: 30px; /* Espaçamento entre a lista e a imagem */
+  gap: 48px;
 }
 
 .info-list {
-  flex: 1; /* Ocupa o espaço disponível */
+  flex: 1;
 }
 
 .info-list h2 {
-  font-size: 36px;
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 400;
   color: var(--text-primary);
-  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
 }
 
 .info-item {
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding-bottom: 22px;
+  margin-bottom: 22px;
 }
 
-/* SUBSTITUIÇÃO ELEGANTE DO <hr> POR UMA BORDA APENAS NOS ITENS QUE NÃO SÃO O ÚLTIMO */
 .info-item:not(:last-child) {
-  border-bottom: 1px dashed var(--border-color);
+  border-bottom: 1px solid rgba(47,62,41,0.12);
 }
 
 .info-item h3 {
-  font-size: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 21px;
+  font-weight: 400;
   color: var(--text-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.02em;
 }
 
 .info-item p {
   font-size: 14px;
+  font-weight: 300;
   color: var(--text-secondary);
-  margin: 5px 0;
+  margin: 4px 0;
+  line-height: 1.6;
 }
 
 .info-item a {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-primary);
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(47,62,41,0.25);
+  transition: border-color 0.2s;
 }
 
 .info-item a:hover {
-  text-decoration: underline;
+  border-color: var(--text-primary);
 }
 
 .info-description {
   font-size: 14px;
-  color: var(--text-primary);
+  font-weight: 300;
+  color: var(--text-secondary);
   font-style: italic;
-  margin-top: 5px;
+  margin-top: 6px;
+  line-height: 1.6;
 }
 
 .info-image-wrapper {
-  flex-basis: 150px; /* Define uma largura base para a imagem */
-  flex-shrink: 0; /* Impede que a imagem encolha */
+  flex-basis: 160px;
+  flex-shrink: 0;
 }
 
 .info-image {
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 14px;
   object-fit: cover;
+  box-shadow: 0 4px 20px rgba(47,62,41,0.08);
 }
 
-/* Media Queries Refatorados com as novas classes genéricas */
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
 @media (max-width: 900px) {
   .locale-hero {
-    flex-direction: column;
-    padding: 30px 5px;
-    gap: 20px;
+    height: 420px;
+  }
+  .locale-hero__text {
+    bottom: 32px;
+    left: 5%;
+    right: 5%;
+  }
+  .locale-hero__text h1 {
+    font-size: 36px;
+  }
+  .locale-hero__text p {
+    font-size: 16px;
+    max-width: 100%;
   }
   .info-section {
-    padding: 30px 5px;
+    padding: 48px 5%;
   }
   .info-list h2 {
-    font-size: 24px;
+    font-size: 28px;
     text-align: center;
   }
   .info-container {
     flex-direction: column;
-    gap: 20px;
-    padding: 0 2vw;
-    max-width: 98vw;
+    gap: 24px;
+    max-width: 100%;
   }
   .info-image-wrapper {
-    width: 150px;
-    margin: 0 auto; /* Centra a imagem no layout de coluna */
+    width: 140px;
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 600px) {
-  .locale-hero { padding: 15px 2px; }
-  .info-section { padding: 18px 2px; }
-  .info-list h2 { font-size: 18px; }
-  .info-item h3 { font-size: 16px; }
+  .locale-hero {
+    height: 360px;
+  }
+  .locale-hero__text h1 {
+    font-size: 28px;
+  }
+  .locale-hero__text p {
+    font-size: 15px;
+  }
+  .info-section {
+    padding: 32px 4%;
+  }
+  .info-list h2 {
+    font-size: 22px;
+  }
+  .info-item h3 {
+    font-size: 17px;
+  }
   .info-item p,
   .info-description,
   .info-item a {
-    font-size: 12px;
+    font-size: 13px;
   }
-  .info-image-wrapper { width: 100px; }
+  .info-image-wrapper {
+    width: 100px;
+  }
 }
+

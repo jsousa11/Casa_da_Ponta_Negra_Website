@@ -3,17 +3,20 @@ import Home from "./pages/Home";
 import PropertyPage from "./pages/PropertyPage";
 import ContactPage from "./pages/ContactPage";
 import LocalePage from "./pages/LocalePage";
+import { LanguageProvider } from "./context/LanguageContext";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/property" element={<PropertyPage />} />
-        <Route path="/locale" element={<LocalePage />} />
-        <Route path="/contact" element={<ContactPage />} />
-      </Routes>
-    </Router>
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/property" element={<PropertyPage />} />
+          <Route path="/locale" element={<LocalePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 

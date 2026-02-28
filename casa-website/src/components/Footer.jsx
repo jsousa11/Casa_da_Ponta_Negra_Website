@@ -1,13 +1,15 @@
 import React from "react";
 import { FaInstagram, FaFacebook, FaAirbnb } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
+import { useLanguage } from "../context/LanguageContext";
 import "../styles/Footer.css";
 
 const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer className="footer">
       <div className="footer-container">
-        
+
         {/* Logo */}
         <div className="footer-logo">
           <img src="src/assets/LOGO_WHITE.png" alt="Casa da Ponta Negra logo" />
@@ -15,16 +17,24 @@ const Footer = () => {
 
         {/* Contato */}
         <div className="footer-contact">
-          <h3>Contact</h3>
-          <p>pontanegrahouse@gmail.com</p>
-          <p>(+351) 963 504 856</p>
+          <h3>{t.footer.contact}</h3>
+          <a href="mailto:pontanegrahouse@gmail.com" className="footer-contact-link">pontanegrahouse@gmail.com</a>
+          <a href="tel:+351963504856" className="footer-contact-link">(+351) 963 504 856</a>
         </div>
 
         {/* Endereço */}
         <div className="footer-address">
-          <h3>Address</h3>
-          <p>358 Lenora Road</p>
-          <p>Flinders, Victoria 3929</p>
+          <h3>{t.footer.address}</h3>
+          <a
+            href="https://maps.app.goo.gl/8nCDUXo3fRSxScvWA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-address-link"
+          >
+            <p>Ponta Negra - Baía de São Lourenço</p>
+            <p>9580-114 Vila do Porto</p>
+            <p>Santa Maria, Açores</p>
+          </a>
         </div>
 
         {/* Redes Sociais */}
@@ -38,7 +48,7 @@ const Footer = () => {
 
       {/* Direitos Autorais */}
       <div className="footer-copy">
-        <p>&copy; 2024 Casa da Ponta Negra. All rights reserved.</p>
+        <p>{t.footer.copyright}</p>
       </div>
     </footer>
   );
