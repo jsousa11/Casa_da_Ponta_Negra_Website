@@ -1,0 +1,9 @@
+[build]
+  base    = "casa-website"
+  command = "npm run build"
+  publish = "casa-website/dist"
+
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
