@@ -1,11 +1,31 @@
-# 
+# Casa da Ponta Negra — Website
 
-falta:
+Site oficial da Casa da Ponta Negra, alojamento em Santa Maria, Açores.
 
-meter os contactos e tal no contact ao lado da parte de mensagens. num lado ter os contactos e endereço e no outro o que ja tem das mensagens
+## Stack
 
-no guest meter por cards tipo como tem no locale os places to visit.
+- React + Vite
+- React Router
+- CSS
+- Netlify (deploy)
 
-quando clico nas paginas quero que me levem para o topo da pagina sempre nao sei se atualmente esta a fazer isso...
+## Desenvolvimento local
 
-se calhar fazer algum tipo de pedido de reserva com datas e tal como booking e tendo as as fatas preenchidas e tal n sei se é fazivel.
+```bash
+cd casa-website
+npm install
+npm run dev
+```
+
+## Estrutura
+
+```
+casa-website/
+  src/
+    pages/       # Home, PropertyPage, LocalePage, ContactPage
+    components/  # Navbar, Footer, NImg, ScrollToTop
+    styles/      # CSS por página
+    context/     # LanguageContext (PT/EN)
+  public/
+    assets/      # Imagens (servidas via Netlify Image CDN)
+```
