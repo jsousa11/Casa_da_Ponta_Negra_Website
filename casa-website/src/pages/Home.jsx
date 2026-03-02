@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import NImg from "../components/NImg";
 import { FaBed, FaCalendarAlt, FaAirbnb } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
 import { useLanguage } from "../context/LanguageContext";
@@ -69,7 +70,7 @@ const Home = () => {
       
       {/* Hero Section */}
       <section className="hero">
-        <img src="/assets/FrontHouse.jpg" alt="Casa da Ponta Negra view" className="hero__img" fetchpriority="high" />
+        <NImg src="/assets/FrontHouse.jpg" alt="Casa da Ponta Negra view" className="hero__img" fetchpriority="high" w={1920} q={90} />
         <div className="hero__overlay" />
         <div className="hero__text">
           <h2>{t.home.heroTitle}</h2>
@@ -97,18 +98,18 @@ const Home = () => {
             <a href="/property" className="explore-button">{t.home.propertyBtn}</a>
           </div>
           <div className="property-bottom-image">
-            <img src="/assets/coast.jpg" alt="Outdoor view" loading="lazy" />
+            <NImg src="/assets/coast.jpg" alt="Outdoor view" loading="lazy" w={1200} />
           </div>
         </div>
         <div className="property-right-col">
-          <img src="/assets/bedroom_1.jpg" alt="Cozy bedroom" loading="lazy" />
+          <NImg src="/assets/bedroom_1.jpg" alt="Cozy bedroom" loading="lazy" w={1200} />
         </div>
       </section>
 
       {/* Locale Section */}
       <section className="locale">
         <div className="locale-left-col">
-          <img src="/assets/ribeira-de-maloas-6.jpg" alt="Stunning cliffs and ocean views" loading="lazy" />
+          <NImg src="/assets/ribeira-de-maloas-6.jpg" alt="Stunning cliffs and ocean views" loading="lazy" w={1200} />
         </div>
         <div className="locale-right-col">
           <div className="locale-content">
@@ -117,7 +118,7 @@ const Home = () => {
             <a href="/locale" className="locale-explore-button">{t.home.localeBtn}</a>
           </div>
           <div className="locale-bottom-image">
-            <img src="/assets/cuisine.jpeg" alt="Authentic Azorean cuisine" loading="lazy" />
+            <NImg src="/assets/cuisine.jpeg" alt="Authentic Azorean cuisine" loading="lazy" w={1200} />
           </div>
         </div>
       </section>

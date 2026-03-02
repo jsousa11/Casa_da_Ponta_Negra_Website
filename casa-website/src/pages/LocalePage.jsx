@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import NImg, { netlifyImageUrl } from "../components/NImg";
 import { useLanguage } from "../context/LanguageContext";
 import "../styles/LocalePage.css";
 
@@ -60,7 +61,7 @@ const InfoSection = ({ title, items, imageSrc, imageAlt, images, sectionId, view
         <div className="info-image-wrapper">
           {images ? (
             images.map((src, i) => (
-              <img key={i} src={src} alt={`${imageAlt || title} ${i + 1}`} className="info-image-col__item" loading="lazy" />
+              <NImg key={i} src={src} alt={`${imageAlt || title} ${i + 1}`} className="info-image-col__item" loading="lazy" w={500} />
             ))
           ) : (
             <img src={imageSrc} alt={imageAlt} className="info-image" />
@@ -91,7 +92,7 @@ const LocalePage = () => {
 
       {/* Hero Section */}
       <header className="locale-hero">
-        <img src="/assets/praia_formosa.jpg" alt="Santa Maria, Açores" className="locale-hero__bg" fetchpriority="high" />
+        <NImg src="/assets/praia_formosa.jpg" alt="Santa Maria, Açores" className="locale-hero__bg" fetchpriority="high" w={1920} q={90} />
         <div className="locale-hero__overlay" />
         <div className="locale-hero__text">
           <h1>{t.locale.heroTitle}</h1>
@@ -124,7 +125,7 @@ const LocalePage = () => {
                 className="attraction-card"
               >
                 <div className="attraction-card__img-wrap">
-                  <img src={`/assets/${attr.image}`} alt={attr.name} loading="lazy" />
+                  <img src={netlifyImageUrl(`/assets/${attr.image}`, { w: 900 })} alt={attr.name} loading="lazy" />
                 </div>
                 <div className="attraction-card__body">
                   <h3>{attr.name}</h3>

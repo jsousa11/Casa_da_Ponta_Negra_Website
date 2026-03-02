@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { netlifyImageUrl } from "../components/NImg";
 import { useLanguage } from "../context/LanguageContext";
 import {
   FaWifi, FaTv, FaSnowflake, FaUtensils, FaBath, FaBed,
@@ -60,7 +61,7 @@ const Gallery = ({ images, galleryTitle }) => {
             aria-label={`Ver ${img.alt}`}
             onKeyDown={(e) => e.key === "Enter" && open(idx)}
           >
-            <img src={`/assets/${img.src}`} alt={img.alt} className="gallery__thumb" loading="lazy" />
+            <img src={netlifyImageUrl(`/assets/${img.src}`, { w: 800 })} alt={img.alt} className="gallery__thumb" loading="lazy" />
             <div className="gallery__item-overlay" />
           </div>
         ))}
@@ -71,7 +72,7 @@ const Gallery = ({ images, galleryTitle }) => {
           <button className="lightbox__close" onClick={close} aria-label="Fechar">&#10005;</button>
           <button className="lightbox__btn lightbox__btn--left" onClick={prev} aria-label="Anterior">&#8249;</button>
           <img
-            src={`/assets/${images[lightboxIdx].src}`}
+            src={netlifyImageUrl(`/assets/${images[lightboxIdx].src}`, { w: 1600, q: 90 })}
             alt={images[lightboxIdx].alt}
             className="lightbox__img"
             onClick={(e) => e.stopPropagation()}
@@ -113,7 +114,7 @@ const PropertyPage = () => {
 
       <header className="property-hero">
         <img
-          src="/assets/front_house.jpg"
+          src={netlifyImageUrl("/assets/front_house.jpg", { w: 1920, q: 90 })}
           alt="Casa da Ponta Negra - Exterior"
           className="hero-image"
           fetchpriority="high"
