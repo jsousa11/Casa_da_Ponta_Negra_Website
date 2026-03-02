@@ -1,7 +1,7 @@
 [build]
   base    = "casa-website"
   command = "npm run build"
-  publish = "casa-website/dist"
+  publish = "dist"
 
 [[redirects]]
   from   = "/*"
