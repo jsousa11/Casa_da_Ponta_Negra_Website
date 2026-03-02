@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FaArrowLeft, FaArrowRight, FaBed, FaCalendarAlt, FaAirbnb } from "react-icons/fa";
+import { FaBed, FaCalendarAlt, FaAirbnb } from "react-icons/fa";
 import { TbBrandBooking } from "react-icons/tb";
 import { useLanguage } from "../context/LanguageContext";
 import "../styles/Home.css";
@@ -55,28 +55,13 @@ const reviews = [
 ];
 
 const Home = () => {
-  const [index, setIndex] = useState(0);
-  const [fade, setFade] = useState(false);
   const { t } = useLanguage();
+  const reviewsSliderRef = useRef(null);
 
-  const nextReview = () => {
-    setFade(true);
-    setTimeout(() => {
-      setIndex((prevIndex) => (prevIndex + 1) % reviews.length);
-      setFade(false);
-    }, 250);
+  const scrollReviews = (dir) => {
+    const el = reviewsSliderRef.current;
+    if (el) el.scrollBy({ left: dir * 360, behavior: 'smooth' });
   };
-
-  const prevReview = () => {
-    setFade(true);
-    setTimeout(() => {
-      setIndex((prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length);
-      setFade(false);
-    }, 250);
-  };
-
-  const review = reviews[index];
-  const scoreLabel = `${review.score} / 10`;
 
   return (
     <div>
@@ -92,7 +77,10 @@ const Home = () => {
           <button
             className="hero__scroll-btn"
             aria-label="Scroll down"
-            onClick={() => document.querySelector('.property-section')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => {
+              const el = document.querySelector('.property-section');
+              if (el) window.scrollTo({ top: el.offsetTop - 76, behavior: 'smooth' });
+            }}
           >
             <span className="hero__scroll-mouse" />
             <span>{t.home.scroll}</span>
@@ -172,37 +160,31 @@ const Home = () => {
           <h2>{t.home.reviewsTitle}</h2>
           <p>{t.home.reviewsSubtitle}</p>
 
-          <div className={`review-card${fade ? " fade" : ""}`}>
-            {/* Nome e Bandeira */}
-            <div className="review-header">
-              <span className="flag" style={{ fontSize: 32 }}>{review.country}</span>
-              <span style={{ fontWeight: "bold", marginLeft: 8 }}>{review.name}</span>
-              <span style={{ color: "#888", marginLeft: 8 }}>{review.location}</span>
+          <div className="reviews-carousel">
+            <button className="reviews-arrow reviews-arrow--left" onClick={() => scrollReviews(-1)} aria-label="Previous">&#8249;</button>
+
+            <div
+              className="reviews-slider"
+              ref={reviewsSliderRef}
+            >
+              {reviews.map((review, i) => (
+                <div key={i} className="review-card">
+                  <div className="review-header">
+                    <span className="flag">{review.country}</span>
+                    <span className="review-name">{review.name}</span>
+                    <span className="review-location">{review.location}</span>
+                  </div>
+                  <div className="review-details">
+                    <FaBed className="review-icon" /> {review.nights} {t.home.nights}
+                    <FaCalendarAlt className="review-icon" /> {review.month}
+                  </div>
+                  <div className="review-score">{review.score} / 10</div>
+                  <p className="review-text">"{review.text}"</p>
+                </div>
+              ))}
             </div>
 
-            {/* Informação das noites e mês */}
-            <div className="review-details">
-              <FaBed className="review-icon" /> {review.nights} {t.home.nights}
-              <FaCalendarAlt className="review-icon" /> {review.month}
-            </div>
-
-            {/* Estrelas (Score) */}
-            <div className="review-score">{scoreLabel}</div>
-
-            {/* Texto da Review */}
-            <p className="review-text">
-              "{review.text}"
-            </p>
-
-            {/* Botões de Navegação */}
-            <div className="review-navigation">
-              <button className="nav-button" onClick={prevReview}>
-                <FaArrowLeft />
-              </button>
-              <button className="nav-button" onClick={nextReview}>
-                <FaArrowRight />
-              </button>
-            </div>
+            <button className="reviews-arrow reviews-arrow--right" onClick={() => scrollReviews(1)} aria-label="Next">&#8250;</button>
           </div>
         </div>
       </section>

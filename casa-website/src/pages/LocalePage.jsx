@@ -47,7 +47,7 @@ const InfoItem = ({ item, viewMapLabel }) => (
 );
 
 // Componente para renderizar uma secção inteira (lista + imagem)
-const InfoSection = ({ title, items, imageSrc, imageAlt, sectionId, viewMapLabel }) => (
+const InfoSection = ({ title, items, imageSrc, imageAlt, images, sectionId, viewMapLabel }) => (
   <section id={sectionId} className="info-section">
     <div className="info-container">
       <div className="info-list">
@@ -56,9 +56,17 @@ const InfoSection = ({ title, items, imageSrc, imageAlt, sectionId, viewMapLabel
           <InfoItem key={item.name} item={item} viewMapLabel={viewMapLabel} />
         ))}
       </div>
-      <div className="info-image-wrapper">
-        <img src={imageSrc} alt={imageAlt} className="info-image" />
-      </div>
+      {(images || imageSrc) && (
+        <div className="info-image-wrapper">
+          {images ? (
+            images.map((src, i) => (
+              <img key={i} src={src} alt={`${imageAlt || title} ${i + 1}`} className="info-image-col__item" loading="lazy" />
+            ))
+          ) : (
+            <img src={imageSrc} alt={imageAlt} className="info-image" />
+          )}
+        </div>
+      )}
     </div>
   </section>
 );
@@ -103,7 +111,10 @@ const LocalePage = () => {
             onClick={() => scrollAttr(-1)}
             aria-label={t.locale.arrowPrev}
           >&#8249;</button>
-          <div className="attractions-slider" ref={sliderRef}>
+          <div
+            className="attractions-slider"
+            ref={sliderRef}
+          >
             {attractions.map((attr) => (
               <a
                 key={attr.name}
@@ -145,8 +156,11 @@ const LocalePage = () => {
         sectionId="eat-drink-section"
         title={t.locale.eatDrinkTitle}
         items={places}
-        imageSrc="src/assets/gastronomia.jpg"
-        imageAlt="Gastronomia local"
+        images={[
+          "src/assets/bife-a-regional.jpg",
+          "src/assets/BISCOITOS-DE-ORELHA.jpg",
+          "src/assets/cuisine.jpeg",
+        ]}
         viewMapLabel={t.locale.viewMap}
       />
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import "../styles/Navbar.css";
 
@@ -8,6 +8,15 @@ const SCROLL_THRESHOLD = 10;
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { lang, setLang, t } = useLanguage();
+  const location = useLocation();
+
+  const handleNavClick = (to) => {
+    if (location.pathname === to) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setIsScrolled(false);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,16 +34,16 @@ const Navbar = () => {
     <nav className={`navbar${isScrolled ? " scrolled" : ""}`}>
       <div className="container">
         {/* Logo */}
-        <Link to="/" className="logo" onClick={() => setIsScrolled(false)}>
+        <Link to="/" className="logo" onClick={() => handleNavClick("/")}>
           <img src="src/assets/LOGO_BLACK.png" alt="Casa da Ponta Negra logo" />
         </Link>
 
         {/* Menu de navegação */}
         <div className="nav-links">
-          <Link to="/" onClick={() => setIsScrolled(false)}>{t.nav.home}</Link>
-          <Link to="/property" onClick={() => setIsScrolled(false)}>{t.nav.property}</Link>
-          <Link to="/locale" onClick={() => setIsScrolled(false)}>{t.nav.locale}</Link>
-          <Link to="/contact" onClick={() => setIsScrolled(false)}>{t.nav.contact}</Link>
+          <Link to="/" onClick={() => handleNavClick("/")}>{t.nav.home}</Link>
+          <Link to="/property" onClick={() => handleNavClick("/property")}>{t.nav.property}</Link>
+          <Link to="/locale" onClick={() => handleNavClick("/locale")}>{t.nav.locale}</Link>
+          <Link to="/contact" onClick={() => handleNavClick("/contact")}>{t.nav.contact}</Link>
 
           {/* Language Toggle */}
           <button

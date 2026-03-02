@@ -99,8 +99,13 @@ export const translations = {
 
     // Contact
     contact: {
-      title: "Mensagem",
+      title: "Contacte-nos",
       subtitle: "Esforçamo-nos por responder dentro de 24 horas.",
+      infoTitle: "Informações de Contacto",
+      addressLabel: "Morada",
+      phoneLabel: "Telefone",
+      emailLabel: "Email",
+      formTitle: "Envie-nos uma Mensagem",
       namePlaceholder: "Nome",
       emailPlaceholder: "Endereço de Email",
       phonePlaceholder: "Telefone (Opcional)",
@@ -208,8 +213,13 @@ export const translations = {
 
     // Contact
     contact: {
-      title: "Message",
+      title: "Contact Us",
       subtitle: "We strive to respond within 24 hours.",
+      infoTitle: "Contact Information",
+      addressLabel: "Address",
+      phoneLabel: "Phone",
+      emailLabel: "Email",
+      formTitle: "Send Us a Message",
       namePlaceholder: "Name",
       emailPlaceholder: "Email Address",
       phonePlaceholder: "Phone (Optional)",

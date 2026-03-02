@@ -4,11 +4,13 @@ import PropertyPage from "./pages/PropertyPage";
 import ContactPage from "./pages/ContactPage";
 import LocalePage from "./pages/LocalePage";
 import { LanguageProvider } from "./context/LanguageContext";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <LanguageProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/property" element={<PropertyPage />} />
