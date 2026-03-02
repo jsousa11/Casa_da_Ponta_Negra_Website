@@ -91,7 +91,7 @@ const LocalePage = () => {
 
       {/* Hero Section */}
       <header className="locale-hero">
-        <img src="src/assets/praia_formosa.jpg" alt="Santa Maria, Açores" className="locale-hero__bg" fetchpriority="high" />
+        <img src="/assets/praia_formosa.jpg" alt="Santa Maria, Açores" className="locale-hero__bg" fetchpriority="high" />
         <div className="locale-hero__overlay" />
         <div className="locale-hero__text">
           <h1>{t.locale.heroTitle}</h1>
@@ -124,7 +124,7 @@ const LocalePage = () => {
                 className="attraction-card"
               >
                 <div className="attraction-card__img-wrap">
-                  <img src={`src/assets/${attr.image}`} alt={attr.name} loading="lazy" />
+                  <img src={`/assets/${attr.image}`} alt={attr.name} loading="lazy" />
                 </div>
                 <div className="attraction-card__body">
                   <h3>{attr.name}</h3>
@@ -157,9 +157,9 @@ const LocalePage = () => {
         title={t.locale.eatDrinkTitle}
         items={places}
         images={[
-          "src/assets/bife-a-regional.jpg",
-          "src/assets/BISCOITOS-DE-ORELHA.jpg",
-          "src/assets/cuisine.jpeg",
+          "/assets/bife-a-regional.jpg",
+          "/assets/BISCOITOS-DE-ORELHA.jpg",
+          "/assets/cuisine.jpeg",
         ]}
         viewMapLabel={t.locale.viewMap}
       />

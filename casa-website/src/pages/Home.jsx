@@ -69,7 +69,7 @@ const Home = () => {
       
       {/* Hero Section */}
       <section className="hero">
-        <img src="src/assets/FrontHouse.jpg" alt="Casa da Ponta Negra view" className="hero__img" fetchpriority="high" />
+        <img src="/assets/FrontHouse.jpg" alt="Casa da Ponta Negra view" className="hero__img" fetchpriority="high" />
         <div className="hero__overlay" />
         <div className="hero__text">
           <h2>{t.home.heroTitle}</h2>
@@ -97,18 +97,18 @@ const Home = () => {
             <a href="/property" className="explore-button">{t.home.propertyBtn}</a>
           </div>
           <div className="property-bottom-image">
-            <img src="src/assets/coast.jpg" alt="Outdoor view" loading="lazy" />
+            <img src="/assets/coast.jpg" alt="Outdoor view" loading="lazy" />
           </div>
         </div>
         <div className="property-right-col">
-          <img src="src/assets/bedroom_1.jpg" alt="Cozy bedroom" loading="lazy" />
+          <img src="/assets/bedroom_1.jpg" alt="Cozy bedroom" loading="lazy" />
         </div>
       </section>
 
       {/* Locale Section */}
       <section className="locale">
         <div className="locale-left-col">
-          <img src="src/assets/ribeira-de-maloas-6.jpg" alt="Stunning cliffs and ocean views" loading="lazy" />
+          <img src="/assets/ribeira-de-maloas-6.jpg" alt="Stunning cliffs and ocean views" loading="lazy" />
         </div>
         <div className="locale-right-col">
           <div className="locale-content">
@@ -117,7 +117,7 @@ const Home = () => {
             <a href="/locale" className="locale-explore-button">{t.home.localeBtn}</a>
           </div>
           <div className="locale-bottom-image">
-            <img src="src/assets/cuisine.jpeg" alt="Authentic Azorean cuisine" loading="lazy" />
+            <img src="/assets/cuisine.jpeg" alt="Authentic Azorean cuisine" loading="lazy" />
           </div>
         </div>
       </section>

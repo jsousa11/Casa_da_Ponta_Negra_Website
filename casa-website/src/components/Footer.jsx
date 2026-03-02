@@ -12,7 +12,7 @@ const Footer = () => {
 
         {/* Logo */}
         <div className="footer-logo">
-          <img src="src/assets/LOGO_WHITE.png" alt="Casa da Ponta Negra logo" />
+          <img src="/assets/LOGO_WHITE.png" alt="Casa da Ponta Negra logo" />
         </div>
 
         {/* Contato */}

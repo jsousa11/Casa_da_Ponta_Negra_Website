@@ -60,7 +60,7 @@ const Gallery = ({ images, galleryTitle }) => {
             aria-label={`Ver ${img.alt}`}
             onKeyDown={(e) => e.key === "Enter" && open(idx)}
           >
-            <img src={`src/assets/${img.src}`} alt={img.alt} className="gallery__thumb" loading="lazy" />
+            <img src={`/assets/${img.src}`} alt={img.alt} className="gallery__thumb" loading="lazy" />
             <div className="gallery__item-overlay" />
           </div>
         ))}
@@ -71,7 +71,7 @@ const Gallery = ({ images, galleryTitle }) => {
           <button className="lightbox__close" onClick={close} aria-label="Fechar">&#10005;</button>
           <button className="lightbox__btn lightbox__btn--left" onClick={prev} aria-label="Anterior">&#8249;</button>
           <img
-            src={`src/assets/${images[lightboxIdx].src}`}
+            src={`/assets/${images[lightboxIdx].src}`}
             alt={images[lightboxIdx].alt}
             className="lightbox__img"
             onClick={(e) => e.stopPropagation()}
@@ -113,7 +113,7 @@ const PropertyPage = () => {
 
       <header className="property-hero">
         <img
-          src="src/assets/front_house.jpg"
+          src="/assets/front_house.jpg"
           alt="Casa da Ponta Negra - Exterior"
           className="hero-image"
           fetchpriority="high"

@@ -35,7 +35,7 @@ const Navbar = () => {
       <div className="container">
         {/* Logo */}
         <Link to="/" className="logo" onClick={() => handleNavClick("/")}>
-          <img src="src/assets/LOGO_BLACK.png" alt="Casa da Ponta Negra logo" />
+          <img src="/assets/LOGO_BLACK.png" alt="Casa da Ponta Negra logo" />
         </Link>
 
         {/* Menu de navegação */}
