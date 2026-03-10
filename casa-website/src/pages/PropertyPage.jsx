@@ -48,7 +48,7 @@ const Gallery = ({ images, galleryTitle }) => {
   }, [isOpen, total]);
 
   return (
-    <section className="gallery gallery--light">
+      <section className={`gallery gallery--light reveal`}>
       <h2 className="gallery__title">{galleryTitle}</h2>
       <div className="gallery__grid">
         {images.map((img, idx) => (
@@ -86,7 +86,7 @@ const Gallery = ({ images, galleryTitle }) => {
 };
 
 const FeatureSection = ({ title, subtitle, features, theme }) => (
-  <section className={`feature-section feature-section--${theme}`}>
+  <section className={`feature-section feature-section--${theme} reveal`}>
     <div className="feature-text">
       <h2>{title}</h2>
       <p>{subtitle}</p>

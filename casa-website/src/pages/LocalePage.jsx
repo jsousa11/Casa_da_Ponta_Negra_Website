@@ -49,7 +49,7 @@ const InfoItem = ({ item, viewMapLabel }) => (
 
 // Componente para renderizar uma secção inteira (lista + imagem)
 const InfoSection = ({ title, items, imageSrc, imageAlt, images, sectionId, viewMapLabel }) => (
-  <section id={sectionId} className="info-section">
+  <section id={sectionId} className="info-section reveal">
     <div className="info-container">
       <div className="info-list">
         <h2>{title}</h2>
@@ -101,7 +101,7 @@ const LocalePage = () => {
       </header>
 
       {/* Sítios a Visitar */}
-      <section className="attractions-section" id="attractions-section">
+      <section className="attractions-section reveal" id="attractions-section">
         <div className="attractions-header">
           <h2>{t.locale.attractionsTitle}</h2>
           <p>{t.locale.attractionsSubtitle}</p>

@@ -90,7 +90,7 @@ const Home = () => {
       </section>
 
       {/* Property Section */}
-      <section className="property-section">
+      <section className="property-section reveal">
         <div className="property-left-col">
           <div className="property-content">
             <h2>{t.home.propertyTitle}</h2>
@@ -107,7 +107,7 @@ const Home = () => {
       </section>
 
       {/* Locale Section */}
-      <section className="locale">
+      <section className="locale reveal">
         <div className="locale-left-col">
           <NImg src="/assets/ribeira-de-maloas-6.jpg" alt="Stunning cliffs and ocean views" loading="lazy" w={1200} />
         </div>
@@ -124,7 +124,7 @@ const Home = () => {
       </section>
 
       {/* Book Section */}
-      <section className="book-section">
+      <section className="book-section reveal">
         <h2>{t.home.bookTitle}</h2>
         <p>{t.home.bookSubtitle}</p>
         <div className="book-links">
@@ -156,7 +156,7 @@ const Home = () => {
       </section>
 
       {/* Reviews Section */}
-      <section className="reviews-section">
+      <section className="reviews-section reveal">
         <div className="reviews-container">
           <h2>{t.home.reviewsTitle}</h2>
           <p>{t.home.reviewsSubtitle}</p>

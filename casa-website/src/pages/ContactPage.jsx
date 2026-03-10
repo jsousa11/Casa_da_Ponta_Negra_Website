@@ -43,7 +43,7 @@ const ContactPage = () => {
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Navbar />
 
-      <section className="contact-section" style={{ flex: 1 }}>
+      <section className="contact-section reveal" style={{ flex: 1 }}>
         <div className="contact-wrapper">
 
           {/* Left — Info */}
