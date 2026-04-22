@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/ContactPage.css";
@@ -14,6 +14,12 @@ const PUBLIC_KEY = "Q57EjSZH_wzy6dHBf";
 const ContactPage = () => {
   const form = useRef();
   const { t } = useLanguage();
+
+  useEffect(() => {
+    document.title = `Casa da Ponta Negra | ${t.nav.contact}`;
+    return () => { document.title = 'Casa da Ponta Negra'; };
+  }, [t]);
+
   const [formStatus, setFormStatus] = useState({
     status: "idle",
     message: ""

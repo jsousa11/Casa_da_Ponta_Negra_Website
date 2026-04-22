@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import NImg from "../components/NImg";
@@ -58,10 +58,33 @@ const reviews = [
 const Home = () => {
   const { t } = useLanguage();
   const reviewsSliderRef = useRef(null);
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, scrollLeft: 0 });
+
+  useEffect(() => {
+    document.title = 'Casa da Ponta Negra';
+  }, []);
 
   const scrollReviews = (dir) => {
     const el = reviewsSliderRef.current;
-    if (el) el.scrollBy({ left: dir * 360, behavior: 'smooth' });
+    if (el) el.scrollBy({ left: dir * 340, behavior: 'smooth' });
+  };
+
+  const onDragStart = (e) => {
+    isDragging.current = true;
+    dragStart.current = { x: e.pageX, scrollLeft: reviewsSliderRef.current.scrollLeft };
+    reviewsSliderRef.current.style.cursor = 'grabbing';
+  };
+
+  const onDragMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    reviewsSliderRef.current.scrollLeft = dragStart.current.scrollLeft - (e.pageX - dragStart.current.x);
+  };
+
+  const onDragEnd = () => {
+    isDragging.current = false;
+    if (reviewsSliderRef.current) reviewsSliderRef.current.style.cursor = '';
   };
 
   return (
@@ -167,6 +190,10 @@ const Home = () => {
             <div
               className="reviews-slider"
               ref={reviewsSliderRef}
+              onMouseDown={onDragStart}
+              onMouseMove={onDragMove}
+              onMouseUp={onDragEnd}
+              onMouseLeave={onDragEnd}
             >
               {reviews.map((review, i) => (
                 <div key={i} className="review-card">

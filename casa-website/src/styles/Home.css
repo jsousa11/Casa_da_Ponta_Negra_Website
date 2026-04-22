@@ -354,7 +354,7 @@
 .book-links {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
@@ -362,40 +362,45 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
-  padding: 24px 36px;
-  border-radius: 16px;
+  gap: 16px;
+  padding: 14px 32px;
   text-decoration: none;
-  min-width: 280px;
-  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-  border: 1px solid rgba(47, 62, 41, 0.15);
-  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(47, 62, 41, 0.35);
+  border-radius: 40px;
+  background: transparent;
+  box-shadow: 0 4px 18px rgba(47, 62, 41, 0.08);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .book-link:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(47, 62, 41, 0.06);
+  border-color: rgba(47, 62, 41, 0.7);
+  box-shadow: 0 8px 28px rgba(47, 62, 41, 0.14);
+  transform: translateY(-2px);
 }
 
 .book-icon {
-  font-size: 48px;
+  font-size: 28px;
   flex-shrink: 0;
+  color: #2F3E29;
+  opacity: 0.70;
+  transition: opacity 0.3s ease;
 }
 
-.book-link--booking .book-icon { color: #5B9DE8; }
-.book-link--airbnb  .book-icon { color: #FF6B6B; }
+.book-link:hover .book-icon {
+  opacity: 1;
+}
 
 .book-link__text {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 3px;
 }
 
 .book-platform-name {
   font-family: 'Playfair Display', serif;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 400;
   letter-spacing: 0.04em;
   color: #2F3E29;
@@ -403,16 +408,23 @@
 }
 
 .book-cta {
-  font-size: 12px;
-  letter-spacing: 0.10em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(47, 62, 41, 0.50);
+  color: rgba(47, 62, 41, 0.45);
   font-family: 'Lato', sans-serif;
-  transition: color 0.25s;
+  transition: color 0.3s ease;
 }
 
 .book-link:hover .book-cta {
-  color: rgba(47, 62, 41, 0.80);
+  color: rgba(47, 62, 41, 0.75);
+}
+
+.book-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(47, 62, 41, 0.15);
+  margin: 12px 0;
 }
 
 /* Reviews Section */

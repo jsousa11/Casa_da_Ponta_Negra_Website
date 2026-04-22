@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { netlifyImageUrl } from "../components/NImg";
 import { useLanguage } from "../context/LanguageContext";
 import {
   FaWifi, FaTv, FaSnowflake, FaUtensils, FaBath, FaBed,
-  FaTshirt, FaParking, FaHotTub, FaTree, FaSun, FaUmbrellaBeach,
-  FaFire, FaShower, FaDumbbell
+  FaTshirt, FaHotTub, FaTree, FaSun, FaUmbrellaBeach,
+  FaFire, FaShower
 } from "react-icons/fa";
 import "../styles/PropertyPage.css";
 
@@ -23,7 +24,7 @@ const galleryImages = [
 ];
 
 const indoorIcons = [FaBed, FaSnowflake, FaWifi, FaTv, FaUtensils, FaBath, FaTshirt];
-const outdoorIcons = [FaHotTub, FaSun, FaTree, FaUmbrellaBeach, FaShower, FaDumbbell, FaFire];
+const outdoorIcons = [FaHotTub, FaSun, FaTree, FaUmbrellaBeach, FaShower, FaUtensils, FaFire];
 
 // --- Galeria com grid + lightbox ---
 const Gallery = ({ images, galleryTitle }) => {
@@ -48,7 +49,7 @@ const Gallery = ({ images, galleryTitle }) => {
   }, [isOpen, total]);
 
   return (
-      <section className={`gallery gallery--light reveal`}>
+    <section className="gallery gallery--light reveal">
       <h2 className="gallery__title">{galleryTitle}</h2>
       <div className="gallery__grid">
         {images.map((img, idx) => (
@@ -67,7 +68,7 @@ const Gallery = ({ images, galleryTitle }) => {
         ))}
       </div>
 
-      {isOpen && (
+      {isOpen && ReactDOM.createPortal(
         <div className="lightbox" onClick={close} role="dialog" aria-modal="true">
           <button className="lightbox__close" onClick={close} aria-label="Fechar">&#10005;</button>
           <button className="lightbox__btn lightbox__btn--left" onClick={prev} aria-label="Anterior">&#8249;</button>
@@ -79,7 +80,8 @@ const Gallery = ({ images, galleryTitle }) => {
           />
           <button className="lightbox__btn lightbox__btn--right" onClick={next} aria-label="Próxima">&#8250;</button>
           <div className="lightbox__counter">{lightboxIdx + 1} / {total}</div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
@@ -104,6 +106,11 @@ const FeatureSection = ({ title, subtitle, features, theme }) => (
 
 const PropertyPage = () => {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    document.title = `Casa da Ponta Negra | ${t.nav.property}`;
+    return () => { document.title = 'Casa da Ponta Negra'; };
+  }, [t]);
 
   const indoorFeatures = indoorIcons.map((icon, i) => ({ icon, text: t.property.features.indoor[i] }));
   const outdoorFeatures = outdoorIcons.map((icon, i) => ({ icon, text: t.property.features.outdoor[i] }));

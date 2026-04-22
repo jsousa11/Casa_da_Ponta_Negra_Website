@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import NImg, { netlifyImageUrl } from "../components/NImg";
@@ -76,10 +76,34 @@ const InfoSection = ({ title, items, imageSrc, imageAlt, images, sectionId, view
 const LocalePage = () => {
   const sliderRef = useRef(null);
   const { t } = useLanguage();
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, scrollLeft: 0 });
+
+  useEffect(() => {
+    document.title = `Casa da Ponta Negra | ${t.nav.locale}`;
+    return () => { document.title = 'Casa da Ponta Negra'; };
+  }, [t]);
 
   const scrollAttr = (dir) => {
     const el = sliderRef.current;
     if (el) el.scrollBy({ left: dir * 284, behavior: 'smooth' });
+  };
+
+  const onDragStart = (e) => {
+    isDragging.current = true;
+    dragStart.current = { x: e.pageX, scrollLeft: sliderRef.current.scrollLeft };
+    sliderRef.current.style.cursor = 'grabbing';
+  };
+
+  const onDragMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    sliderRef.current.scrollLeft = dragStart.current.scrollLeft - (e.pageX - dragStart.current.x);
+  };
+
+  const onDragEnd = () => {
+    isDragging.current = false;
+    if (sliderRef.current) sliderRef.current.style.cursor = '';
   };
 
   // Merge static meta (links, images, addresses) with translated text
@@ -115,15 +139,14 @@ const LocalePage = () => {
           <div
             className="attractions-slider"
             ref={sliderRef}
+            onMouseDown={onDragStart}
+            onMouseMove={onDragMove}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+            style={{ cursor: 'grab' }}
           >
             {attractions.map((attr) => (
-              <a
-                key={attr.name}
-                href={attr.directions}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="attraction-card"
-              >
+              <div key={attr.name} className="attraction-card">
                 <div className="attraction-card__img-wrap">
                   <img src={netlifyImageUrl(`/assets/${attr.image}`, { w: 900 })} alt={attr.name} loading="lazy" />
                 </div>
@@ -131,7 +154,7 @@ const LocalePage = () => {
                   <h3>{attr.name}</h3>
                   <p>{attr.description}</p>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
           <button
