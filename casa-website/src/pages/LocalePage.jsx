@@ -1,92 +1,31 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import NImg, { netlifyImageUrl } from "../components/NImg";
+import MapView from "../components/MapView";
+import Weather from "../components/Weather";
+import { netlifyImageUrl } from "../components/NImg";
+import usePageMeta from "../hooks/usePageMeta";
 import { useLanguage } from "../context/LanguageContext";
+import { site } from "../config/site";
+import { attractionsMeta, placesMeta, directionsUrl } from "../config/places";
+import { FaCar, FaHome, FaWater, FaFish, FaHiking, FaMusic, FaStar, FaMapMarkerAlt } from "react-icons/fa";
+import { GiDolphin } from "react-icons/gi";
 import "../styles/LocalePage.css";
 
-// Endereços e links estáticos mantidos aqui (não mudam com o idioma)
-const attractionsMeta = [
-  { address: "Praia Formosa, Santa Maria", directions: "https://maps.app.goo.gl/9v8q9jv9v8q9jv9v8", image: "praia_formosa.jpg" },
-  { address: "São Pedro, Santa Maria",     directions: "https://maps.app.goo.gl/poçodapedreira",    image: "poço_da_pedreira.jpg" },
-  { address: "Ribeira de Maloas, Santa Maria", directions: "https://maps.app.goo.gl/ribeirademaloas", image: "ribeira-de-maloas-6.jpg" },
-  { address: "Maia, Santa Maria",          directions: "https://maps.app.goo.gl/baiaDaMaia",        image: "baia_da_maia.jpg" },
-  { address: "São Lourenço, Santa Maria",  directions: "https://maps.app.goo.gl/saolourencobaia",  image: "baia_sao_lourenço.jpg" },
-  { address: "Norte, Santa Maria",         directions: "https://maps.app.goo.gl/barreirofaneca",   image: "barreiro_faneca.jpg" },
-  { address: "Aveiro, Santa Maria",        directions: "https://maps.app.goo.gl/cascatadoaveiro",  image: "cascata_do_aveiro.jpg" },
-];
-
-const placesMeta = [
-  { address: "Baía de São Lourenço, Santa Maria", website: "https://maps.app.goo.gl/79fQkoN2EAertdQQ9" },
-  { address: "Vila do Porto, Santa Maria",        website: "https://maps.app.goo.gl/5TAG5XAP3Yf4BhuA9" },
-  { address: "Vila do Porto, Santa Maria",        website: "https://maps.app.goo.gl/YFtsE3eTJxVsBPP38" },
-  { address: "Vila do Porto, Santa Maria",        website: "https://maps.app.goo.gl/Aa1cTzHJtWbYYiwe7" },
-  { address: "Santa Maria, Açores",               website: "https://maps.app.goo.gl/539iaBwq4xRvCEcR9" },
-];
-
-// --- Componentes Reutilizáveis Internos ---
-
-// Componente para renderizar cada item da lista (local ou atração)
-const InfoItem = ({ item, viewMapLabel }) => (
-  <div className="info-item">
-    <div className="info-text">
-      <h3>{item.name}</h3>
-      <p>{item.address}</p>
-      {item.website && (
-        <a href={item.website} target="_blank" rel="noopener noreferrer">
-          {viewMapLabel}
-        </a>
-      )}
-      {item.directions && (
-        <a href={item.directions} target="_blank" rel="noopener noreferrer">
-          {viewMapLabel}
-        </a>
-      )}
-    </div>
-    <p className="info-description">{item.description}</p>
-  </div>
-);
-
-// Componente para renderizar uma secção inteira (lista + imagem)
-const InfoSection = ({ title, items, imageSrc, imageAlt, images, sectionId, viewMapLabel }) => (
-  <section id={sectionId} className="info-section reveal">
-    <div className="info-container">
-      <div className="info-list">
-        <h2>{title}</h2>
-        {items.map((item) => (
-          <InfoItem key={item.name} item={item} viewMapLabel={viewMapLabel} />
-        ))}
-      </div>
-      {(images || imageSrc) && (
-        <div className="info-image-wrapper">
-          {images ? (
-            images.map((src, i) => (
-              <NImg key={i} src={src} alt={`${imageAlt || title} ${i + 1}`} className="info-image-col__item" loading="lazy" w={500} />
-            ))
-          ) : (
-            <img src={imageSrc} alt={imageAlt} className="info-image" />
-          )}
-        </div>
-      )}
-    </div>
-  </section>
-);
-
+const experienceIcons = [FaWater, FaFish, GiDolphin, FaHiking, FaMusic, FaStar];
 
 const LocalePage = () => {
   const sliderRef = useRef(null);
   const { t } = useLanguage();
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, scrollLeft: 0 });
+  const [activePin, setActivePin] = useState(null);
 
-  useEffect(() => {
-    document.title = `Casa da Ponta Negra | ${t.nav.locale}`;
-    return () => { document.title = 'Casa da Ponta Negra'; };
-  }, [t]);
+  usePageMeta(t.nav.locale, t.locale.metaDescription);
 
   const scrollAttr = (dir) => {
     const el = sliderRef.current;
-    if (el) el.scrollBy({ left: dir * 284, behavior: 'smooth' });
+    if (el) el.scrollBy({ left: dir * 324, behavior: 'smooth' });
   };
 
   const onDragStart = (e) => {
@@ -106,87 +45,161 @@ const LocalePage = () => {
     if (sliderRef.current) sliderRef.current.style.cursor = '';
   };
 
-  // Merge static meta (links, images, addresses) with translated text
+  // Junta os dados fixos (coordenadas, imagens) ao texto traduzido
   const attractions = t.locale.attractions.map((a, i) => ({ ...attractionsMeta[i], ...a }));
   const places = t.locale.places.map((p, i) => ({ ...placesMeta[i], ...p }));
+  const mapPoints = attractions.map((a) => ({ name: a.name, coords: a.coords }));
+
+  const travelLabel = (a) =>
+    a.here ? <><FaHome /> {t.locale.here}</> : <><FaCar /> {a.minutes} min {t.locale.byCar}</>;
 
   return (
-    <div>
+    <div className="page">
       <Navbar />
 
-      {/* Hero Section */}
-      <header className="locale-hero">
-        <NImg src="/assets/praia_formosa.jpg" alt="Santa Maria, Açores" className="locale-hero__bg" fetchpriority="high" w={1920} q={90} />
-        <div className="locale-hero__overlay" />
-        <div className="locale-hero__text">
+      {/* Hero */}
+      <header className="page-hero">
+        <img src={netlifyImageUrl("/assets/praia_formosa.jpg", { w: 2000, q: 85 })} alt="Praia Formosa, Santa Maria" className="page-hero__bg" fetchpriority="high" />
+        <div className="page-hero__overlay" />
+        <div className="page-hero__text">
+          <span className="eyebrow">{t.locale.heroEyebrow}</span>
           <h1>{t.locale.heroTitle}</h1>
           <p>{t.locale.heroSubtitle}</p>
+          <Weather label={t.locale.weatherNow} seaLabel={t.locale.sea} windLabel={t.locale.wind} />
         </div>
       </header>
 
-      {/* Sítios a Visitar */}
-      <section className="attractions-section reveal" id="attractions-section">
-        <div className="attractions-header">
-          <h2>{t.locale.attractionsTitle}</h2>
-          <p>{t.locale.attractionsSubtitle}</p>
-        </div>
-        <div className="attractions-carousel">
-          <button
-            className="attractions-arrow attractions-arrow--left"
-            onClick={() => scrollAttr(-1)}
-            aria-label={t.locale.arrowPrev}
-          >&#8249;</button>
+      <main>
+        {/* Sítios a visitar */}
+        <section className="attractions-section">
+          <div className="attractions-header reveal">
+            <div>
+              <span className="eyebrow">{t.locale.attractionsEyebrow}</span>
+              <h2 className="section-title">{t.locale.attractionsTitle}</h2>
+              <p className="section-lead">{t.locale.attractionsSubtitle}</p>
+            </div>
+            <div className="attractions-arrows">
+              <button className="carousel-arrow" onClick={() => scrollAttr(-1)} aria-label={t.locale.arrowPrev}>&#8249;</button>
+              <button className="carousel-arrow" onClick={() => scrollAttr(1)} aria-label={t.locale.arrowNext}>&#8250;</button>
+            </div>
+          </div>
+
           <div
-            className="attractions-slider"
+            className="attractions-slider reveal"
             ref={sliderRef}
             onMouseDown={onDragStart}
             onMouseMove={onDragMove}
             onMouseUp={onDragEnd}
             onMouseLeave={onDragEnd}
-            style={{ cursor: 'grab' }}
           >
-            {attractions.map((attr) => (
-              <div key={attr.name} className="attraction-card">
-                <div className="attraction-card__img-wrap">
-                  <img src={netlifyImageUrl(`/assets/${attr.image}`, { w: 900 })} alt={attr.name} loading="lazy" />
+            {attractions.map((attr, i) => (
+              <article key={attr.name} className="attraction-card">
+                <div className="attraction-card__img-wrap zoom-frame">
+                  <img src={netlifyImageUrl(`/assets/${attr.image}`, { w: 800 })} alt={attr.name} loading="lazy" draggable="false" />
+                  <span className="attraction-card__num">{i + 1}</span>
                 </div>
                 <div className="attraction-card__body">
+                  <span className="attraction-card__time">{travelLabel(attr)}</span>
                   <h3>{attr.name}</h3>
                   <p>{attr.description}</p>
+                  {!attr.here && (
+                    <a className="text-link" href={directionsUrl(site.coords, attr.coords)} target="_blank" rel="noopener noreferrer">
+                      {t.locale.directions} →
+                    </a>
+                  )}
                 </div>
-              </div>
+              </article>
             ))}
           </div>
-          <button
-            className="attractions-arrow attractions-arrow--right"
-            onClick={() => scrollAttr(1)}
-            aria-label={t.locale.arrowNext}
-          >&#8250;</button>
-        </div>
-        <div className="attractions-footer">
-          <a
-            href="https://www.exploresantamaria.pt/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="attractions-more-btn"
-          >
-            {t.locale.attractionsMore}
-          </a>
-        </div>
-      </section>
+        </section>
 
-      {/* Comer & Beber */}
-      <InfoSection
-        sectionId="eat-drink-section"
-        title={t.locale.eatDrinkTitle}
-        items={places}
-        images={[
-          "/assets/bife-a-regional.jpg",
-          "/assets/BISCOITOS-DE-ORELHA.jpg",
-          "/assets/cuisine.jpeg",
-        ]}
-        viewMapLabel={t.locale.viewMap}
-      />
+        {/* Mapa */}
+        <section className="map-section">
+          <div className="map-section__inner">
+            <div className="map-section__text reveal">
+              <span className="eyebrow">{t.locale.mapEyebrow}</span>
+              <h2 className="section-title">{t.locale.mapTitle}</h2>
+              <p className="section-lead">{t.locale.mapSubtitle}</p>
+              <ol className="map-legend">
+                {attractions.map((a, i) => (
+                  <li
+                    key={a.name}
+                    onMouseEnter={() => setActivePin(i)}
+                    onMouseLeave={() => setActivePin(null)}
+                    onFocus={() => setActivePin(i)}
+                    onBlur={() => setActivePin(null)}
+                    tabIndex={0}
+                  >
+                    <span className="map-legend__num">{i + 1}</span>
+                    <span className="map-legend__name">{a.name}</span>
+                    <span className="map-legend__time">{a.here ? "—" : `${a.minutes} min`}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="map-section__map reveal">
+              <MapView house={site.coords} houseLabel={t.locale.house} points={mapPoints} activeIndex={activePin} />
+            </div>
+          </div>
+        </section>
+
+        {/* Experiências */}
+        <section className="experiences">
+          <div className="section-head reveal">
+            <span className="eyebrow">{t.locale.experiencesEyebrow}</span>
+            <h2 className="section-title">{t.locale.experiencesTitle}</h2>
+          </div>
+          <ul className="experiences__grid reveal reveal-stagger">
+            {t.locale.experiences.map((exp, i) => {
+              const Icon = experienceIcons[i];
+              return (
+                <li key={exp.title} className="experience-card">
+                  <span className="experience-card__icon"><Icon /></span>
+                  <h3>{exp.title}</h3>
+                  <p>{exp.text}</p>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="experiences__more reveal">
+            <a href="https://www.exploresantamaria.pt/" target="_blank" rel="noopener noreferrer" className="btn btn--ghost">
+              {t.locale.attractionsMore} →
+            </a>
+          </div>
+        </section>
+
+        {/* Comer & Beber */}
+        <section className="eat-section">
+          <div className="eat-section__inner">
+            <div className="eat-list">
+              <div className="reveal">
+                <span className="eyebrow">{t.locale.eatDrinkEyebrow}</span>
+                <h2 className="section-title">{t.locale.eatDrinkTitle}</h2>
+              </div>
+              <ul className="reveal reveal-stagger">
+                {places.map((place) => (
+                  <li key={place.name} className="eat-item">
+                    <div className="eat-item__head">
+                      <h3>{place.name}</h3>
+                      <a href={place.url} target="_blank" rel="noopener noreferrer" className="eat-item__map" aria-label={`${t.locale.viewMap}: ${place.name}`}>
+                        <FaMapMarkerAlt /> {place.area}
+                      </a>
+                    </div>
+                    <p>{place.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="eat-images reveal">
+              {["bife-a-regional.jpg", "BISCOITOS-DE-ORELHA.jpg", "cuisine.jpeg"].map((src) => (
+                <div key={src} className="eat-images__item zoom-frame">
+                  <img src={netlifyImageUrl(`/assets/${src}`, { w: 600 })} alt="" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
 
       <Footer />
     </div>

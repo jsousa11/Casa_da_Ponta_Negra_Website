@@ -1,0 +1,353 @@
+/* ==========================================
+   BOOK PAGE
+   ========================================== */
+
+.book-page {
+  background: var(--c-lime);
+  padding: calc(var(--nav-h) + clamp(40px, 6vw, 80px)) var(--gutter) clamp(64px, 8vw, 110px);
+}
+
+.book-page__inner {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: clamp(36px, 6vw, 88px);
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.book-page__main .section-lead { margin-bottom: 36px; }
+.book-page__main h1.section-title { font-size: clamp(36px, 5vw, 56px); }
+
+.book-form {
+  background: var(--c-white);
+  border-radius: var(--radius);
+  padding: clamp(22px, 3vw, 36px);
+  box-shadow: var(--shadow);
+}
+
+
+
+.book-page__engine { margin-top: 8px; }
+
+/* Lateral */
+.book-page__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+.book-aside-card {
+  background: var(--c-blue-deep);
+  color: var(--c-on-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.book-aside-card__img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.book-aside-card__body { padding: 26px 28px 28px; }
+
+.book-aside-card h2 {
+  font-size: 26px;
+  color: var(--c-white);
+  margin-bottom: 12px;
+}
+
+.book-aside-card h3,
+.book-platforms h3 {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.book-aside-card h3 { color: var(--c-accent-light); margin: 22px 0 10px; }
+
+.book-facts,
+.book-why {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.book-facts li,
+.book-why li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.book-facts svg { color: var(--c-on-dark-soft); }
+.book-why svg { color: var(--c-accent-light); font-size: 13px; }
+
+.book-policy {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--c-on-dark);
+}
+
+.book-policy li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.book-policy li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-accent-light);
+}
+
+
+.book-platforms {
+  background: var(--c-white);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+}
+
+.book-platforms h3 { color: var(--c-ink-soft); margin-bottom: 8px; }
+
+.book-platform {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 4px;
+  color: var(--c-ink);
+  text-decoration: none;
+  font-size: 16px;
+  border-bottom: 1px solid var(--c-line);
+  transition: color 0.2s;
+}
+
+.book-platform:last-child { border-bottom: none; }
+.book-platform:hover { color: var(--c-blue); }
+.book-platform__icon { font-size: 22px; color: var(--c-blue); }
+.book-platform__rating { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--c-accent); }
+.book-platform__arrow { margin-left: auto; transition: transform 0.25s; }
+.book-platform:hover .book-platform__arrow { transform: translateX(4px); }
+
+@media (max-width: 900px) {
+  .book-page__inner { grid-template-columns: 1fr; }
+  .book-page__aside { position: static; }
+}
+
+
+/* ── Passos do formulário ── */
+.book-form { gap: 0; }
+
+.book-step {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--c-line);
+}
+
+.book-step h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 22px;
+  color: var(--c-blue-deep);
+}
+
+.book-step h2 span {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-blue);
+  color: var(--c-white);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.book-step__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.book-step__hint { font-size: 15px; color: var(--c-ink); font-weight: 700; }
+.book-step__note { font-size: 13px; color: var(--c-ink-soft); }
+
+/* ── Calendário ── */
+.book-calendar {
+  --rdp-accent-color: var(--c-blue);
+  --rdp-accent-background-color: var(--c-blue-soft);
+  --rdp-day-height: 38px;
+  --rdp-day-width: 38px;
+  --rdp-day_button-height: 36px;
+  --rdp-day_button-width: 36px;
+  --rdp-range_middle-background-color: var(--c-blue-soft);
+  --rdp-range_middle-color: var(--c-blue-deep);
+  --rdp-range_start-date-background-color: var(--c-blue);
+  --rdp-range_end-date-background-color: var(--c-blue);
+  --rdp-today-color: var(--c-accent);
+  --rdp-disabled-opacity: 0.35;
+  font-family: var(--font-sans);
+  margin: 4px 0;
+}
+
+.book-calendar .rdp-months { flex-wrap: wrap; gap: 20px 36px; max-width: none; }
+.book-calendar .rdp-month_caption { font-family: var(--font-serif); font-size: 18px; color: var(--c-blue-deep); text-transform: capitalize; }
+.book-calendar .rdp-weekday { font-size: 12px; color: var(--c-ink-soft); text-transform: uppercase; }
+.book-calendar .rdp-day_button { font-size: 14px; }
+.book-calendar .rdp-chevron { fill: var(--c-blue); }
+
+/* noite ocupada: riscado */
+.book-calendar .day--busy .rdp-day_button {
+  text-decoration: line-through;
+  color: var(--c-ink-soft);
+}
+
+/* ── Hóspedes ── */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 6px 0;
+}
+
+.stepper__label { display: block; font-size: 16px; color: var(--c-ink); }
+.stepper__hint { display: block; font-size: 13px; color: var(--c-ink-soft); }
+
+.stepper__controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stepper__controls span { min-width: 18px; text-align: center; font-size: 16px; font-weight: 700; }
+
+.stepper__controls button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(30, 35, 32, 0.25);
+  background: var(--c-white);
+  color: var(--c-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.stepper__controls button:hover:not(:disabled) { border-color: var(--c-blue); color: var(--c-blue); }
+.stepper__controls button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── Preço ── */
+.book-price {
+  margin: -8px 0 28px;
+  padding: 18px 20px;
+  border-radius: var(--radius-sm);
+  background: var(--c-sand);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fade-up 0.4s var(--ease) both;
+}
+
+.book-price__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.book-price__row--total {
+  padding-top: 10px;
+  border-top: 1px solid var(--c-line);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--c-blue-deep);
+}
+
+.book-price__compare {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  color: var(--c-ink-soft);
+}
+
+.book-price__save {
+  font-weight: 700;
+  color: var(--c-accent);
+}
+
+.book-submit { align-self: stretch !important; margin: 8px 0 10px !important; }
+
+/* ── Pedido enviado ── */
+.book-done {
+  background: var(--c-white);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  animation: fade-up 0.5s var(--ease) both;
+}
+
+.book-done__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-accent);
+  color: var(--c-white);
+  font-size: 22px;
+}
+
+.book-done h2 { font-size: 28px; color: var(--c-blue-deep); margin-bottom: 8px; }
+.book-done p { color: var(--c-ink-soft); margin: 0 auto 24px; max-width: 460px; }
+
+.book-discount {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--c-accent);
+  color: var(--c-white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 600px) {
+  .book-calendar { --rdp-day-height: 40px; --rdp-day-width: calc((100vw - 2 * var(--gutter) - 44px) / 7); --rdp-day_button-width: 100%; }
+  .book-calendar .rdp-months { gap: 18px; }
+}
