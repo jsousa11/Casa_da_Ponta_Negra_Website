@@ -7,10 +7,10 @@ import { netlifyImageUrl } from "../components/NImg";
 import usePageMeta from "../hooks/usePageMeta";
 import { useLanguage } from "../context/LanguageContext";
 import { site } from "../config/site";
-import { FaPlane, FaShip, FaCar, FaPlus } from "react-icons/fa";
+import { FaPlane, FaPlus } from "react-icons/fa";
 import "../styles/InfoPage.css";
 
-const gettingIcons = { plane: FaPlane, ferry: FaShip, car: FaCar };
+const gettingIcons = { plane: FaPlane };
 
 // Substitui {guests}, {checkIn}... pelos valores do config
 const fill = (text) => text.replace(/\{(\w+)\}/g, (_, k) => (k === "guests" ? site.maxGuests : site[k] ?? ""));

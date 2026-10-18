@@ -190,16 +190,14 @@ export const translations = {
 
     // Info & FAQ
     info: {
-      metaDescription: "Como chegar à Casa da Ponta Negra em Santa Maria, Açores: voos, ferry, aluguer de carro e respostas às perguntas mais frequentes.",
+      metaDescription: "Como chegar à Casa da Ponta Negra em Santa Maria, Açores: voos, aluguer de carro e respostas às perguntas mais frequentes.",
       heroEyebrow: "Planear a viagem",
       heroTitle: "Como chegar & FAQ",
       heroSubtitle: "Como chegar à ilha e à casa, e as perguntas que mais nos fazem.",
       gettingEyebrow: "Como chegar",
       gettingTitle: "Chegar a Santa Maria",
       getting: [
-        { key: "plane", title: "De avião", text: "O Aeroporto de Santa Maria (SMA) tem ligações regulares a Ponta Delgada, em São Miguel, e voos diretos de Lisboa em algumas épocas do ano. A casa fica a cerca de 20 minutos de carro do aeroporto." },
-        { key: "ferry", title: "De barco", text: "No verão, a Atlânticoline faz a ligação de ferry entre Ponta Delgada e Vila do Porto. Consulte horários e preços em atlanticoline.pt." },
-        { key: "car", title: "De carro", text: "Recomendamos alugar carro: os transportes públicos na ilha são limitados. A descida para a Baía de São Lourenço é íngreme e com curvas. Faça-a com calma e aproveite a vista." },
+        { key: "plane", title: "De avião", text: "O Aeroporto de Santa Maria (SMA) tem ligações regulares a Ponta Delgada, em São Miguel, e voos diretos de Lisboa em algumas épocas do ano. A casa fica a cerca de 20 minutos de carro do aeroporto. Recomendamos alugar carro logo no aeroporto: é a melhor forma de andar pela ilha." },
       ],
       mapTitle: "Onde fica a casa",
       openMaps: "Abrir no Google Maps",
@@ -208,7 +206,7 @@ export const translations = {
       faq: [
         { q: "Quantas pessoas pode a casa receber?", a: "Até {guests} pessoas: um quarto com cama de casal, outro com cama queen e um sofá-cama na sala. Há berço disponível e 2 casas de banho." },
         { q: "A que horas é o check-in e o check-out?", a: "Check-in a partir das {checkIn} (até às 23:00) e check-out até às {checkOut}. Avise-nos com antecedência da hora a que prevê chegar: o anfitrião recebe-o pessoalmente.", needs: ["checkIn", "checkOut"] },
-        { q: "Há estacionamento?", a: "Sim, estacionamento gratuito na rua, junto à casa." },
+        { q: "Há estacionamento?", a: "Há estacionamento gratuito na rua, mas não fica junto à casa: do carro até lá ainda é uma pequena caminhada a pé. Convém trazer bagagem fácil de levar." },
         { q: "Posso levar crianças ou animais?", a: "Todas as crianças são bem-vindas e há berço gratuito a pedido. Não são permitidos animais de estimação, nem fumar ou fazer festas dentro da casa." },
         { q: "Preciso de carro?", a: "Sim, recomendamos. A casa fica numa baía tranquila, a cerca de 20 minutos de Vila do Porto, e os transportes públicos na ilha são limitados." },
         { q: "A praia é perto?", a: "Sim. São dois a três minutos a pé por um caminho de terra irregular." },
@@ -527,16 +525,14 @@ export const translations = {
 
     // Info & FAQ
     info: {
-      metaDescription: "How to get to Casa da Ponta Negra in Santa Maria, Azores: flights, ferry, car hire and answers to frequently asked questions.",
+      metaDescription: "How to get to Casa da Ponta Negra in Santa Maria, Azores: flights, car hire and answers to frequently asked questions.",
       heroEyebrow: "Plan your trip",
       heroTitle: "Getting here & FAQ",
       heroSubtitle: "How to get to the island and the house, and the questions we get asked most.",
       gettingEyebrow: "Getting here",
       gettingTitle: "Getting to Santa Maria",
       getting: [
-        { key: "plane", title: "By plane", text: "Santa Maria Airport (SMA) has regular connections to Ponta Delgada, on São Miguel, and direct flights from Lisbon at some times of the year. The house is about 20 minutes' drive from the airport." },
-        { key: "ferry", title: "By ferry", text: "In summer, Atlânticoline runs a ferry between Ponta Delgada and Vila do Porto. Check timetables and fares at atlanticoline.pt." },
-        { key: "car", title: "By car", text: "We recommend hiring a car, as public transport on the island is limited. The road down to São Lourenço Bay is steep and winding. Take it slowly and enjoy the view." },
+        { key: "plane", title: "By plane", text: "Santa Maria Airport (SMA) has regular connections to Ponta Delgada, on São Miguel, and direct flights from Lisbon at some times of the year. The house is about 20 minutes' drive from the airport. We recommend hiring a car at the airport: it's the best way to get around the island." },
       ],
       mapTitle: "Where the house is",
       openMaps: "Open in Google Maps",
@@ -545,7 +541,7 @@ export const translations = {
       faq: [
         { q: "How many guests can the house sleep?", a: "Up to {guests} guests: one bedroom with a double bed, another with a queen bed and a sofa bed in the living room. A cot is available and there are 2 bathrooms." },
         { q: "What are the check-in and check-out times?", a: "Check-in from {checkIn} (until 23:00) and check-out by {checkOut}. Please let us know your arrival time in advance: the host welcomes you in person.", needs: ["checkIn", "checkOut"] },
-        { q: "Is there parking?", a: "Yes, free street parking right by the house." },
+        { q: "Is there parking?", a: "There is free street parking, but not right by the house: it's still a short walk from the car. Luggage that's easy to carry is a good idea." },
         { q: "Can I bring children or pets?", a: "Children of all ages are welcome and a cot is available free of charge on request. Pets are not allowed, and smoking and parties are not permitted in the house." },
         { q: "Do I need a car?", a: "Yes, we recommend it. The house sits on a quiet bay about 20 minutes from Vila do Porto, and public transport on the island is limited." },
         { q: "Is the beach close?", a: "Yes. It's a two to three-minute walk along an uneven dirt path." },
