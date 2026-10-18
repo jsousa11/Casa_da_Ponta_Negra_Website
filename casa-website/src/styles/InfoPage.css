@@ -16,6 +16,12 @@
   margin: 0 auto 64px;
 }
 
+/* só um cartão (avião): centrado, sem esticar a grelha */
+.getting__grid:has(> :only-child) {
+  grid-template-columns: minmax(0, 760px);
+  justify-content: center;
+}
+
 .getting-card {
   background: var(--c-white);
   border-radius: var(--radius);
