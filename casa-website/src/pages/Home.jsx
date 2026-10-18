@@ -233,7 +233,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Região */}
+      {/* A Ilha */}
       <section className="split split--locale">
         <div className="split__media reveal">
           <div className="split__img split__img--main">

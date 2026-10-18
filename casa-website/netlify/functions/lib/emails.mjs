@@ -158,7 +158,7 @@ const guestTexts = {
     arrival: "Chegada", departure: "Partida", guests: "Hóspedes",
     from: "a partir das", until: "até às", nights: "noites",
     savings: (s) => `Poupou ${s} em relação ao Airbnb e ao Booking.`,
-    cancel: "Cancelamento até 30 dias antes da chegada: devolvemos o valor total. A menos de 30 dias: sem reembolso.",
+    cancel: "Se cancelar até 30 dias antes da chegada, devolvemos o valor total. Com menos de 30 dias, não há reembolso.",
     questions: "Alguma dúvida? Basta responder a este email.",
     bye: "Até breve,",
     request: {
@@ -180,8 +180,8 @@ const guestTexts = {
       totalLabel: "Total pago",
       nextTitle: "Antes de chegar",
       next: [
-        "Uns dias antes, diga-nos a hora prevista de chegada. O Paulo recebe-o pessoalmente na casa.",
-        "Recomendamos alugar carro e fazer compras em Vila do Porto antes de descer para a baía.",
+        "Uns dias antes, diga-nos a que horas conta chegar. O Paulo faz o check-in pessoalmente.",
+        "Aconselhamos que alugue carro no aeroporto e faça compras em Vila do Porto antes de descer para a baía.",
         `A casa fica na Baía de São Lourenço. <a href="${mapsLink}" style="color:${C.green}">Ver no Google Maps</a>.`,
       ],
       cta: "Como chegar e FAQ",
