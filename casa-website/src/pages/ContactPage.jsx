@@ -7,7 +7,7 @@ import emailjs from "@emailjs/browser";
 import usePageMeta from "../hooks/usePageMeta";
 import { useLanguage } from "../context/LanguageContext";
 import { site, emailjsConfig } from "../config/site";
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaInstagram } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaInstagram, FaFacebook } from "react-icons/fa";
 
 const ContactPage = () => {
   const form = useRef();
@@ -47,6 +47,7 @@ const ContactPage = () => {
     { Icon: FaPhone, label: t.contact.phoneLabel, href: `tel:${site.phone}`, value: site.phoneDisplay },
     { Icon: FaEnvelope, label: t.contact.emailLabel, href: `mailto:${site.email}`, value: site.email },
     { Icon: FaInstagram, label: "Instagram", href: site.social.instagram, external: true, value: "@casapontanegra.sma" },
+    { Icon: FaFacebook, label: "Facebook", href: site.social.facebook, external: true, value: "Casa da Ponta Negra" },
   ];
 
   return (
