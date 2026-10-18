@@ -4,8 +4,12 @@ import Home from "./pages/Home";
 import PropertyPage from "./pages/PropertyPage";
 import ContactPage from "./pages/ContactPage";
 import LocalePage from "./pages/LocalePage";
+import InfoPage from "./pages/InfoPage";
+import BookPage from "./pages/BookPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import { LanguageProvider } from "./context/LanguageContext";
 import ScrollToTop from "./components/ScrollToTop";
+import BookBar from "./components/BookBar";
 
 const RevealObserver = () => {
   const { pathname } = useLocation();
@@ -35,8 +39,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/property" element={<PropertyPage />} />
           <Route path="/locale" element={<LocalePage />} />
+          <Route path="/info" element={<InfoPage />} />
+          <Route path="/book" element={<BookPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="*" element={<Home />} />
         </Routes>
+        <BookBar />
       </Router>
     </LanguageProvider>
   );

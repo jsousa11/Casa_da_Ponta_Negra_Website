@@ -1,36 +1,27 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "../styles/ContactPage.css";
 import emailjs from "@emailjs/browser";
+import usePageMeta from "../hooks/usePageMeta";
 import { useLanguage } from "../context/LanguageContext";
-import { FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
-
-// Constantes mantidas diretamente no ficheiro
-const SERVICE_ID = "service_78mmtgl";
-const TEMPLATE_ID = "template_9etmqy9";
-const PUBLIC_KEY = "Q57EjSZH_wzy6dHBf";
+import { site, emailjsConfig } from "../config/site";
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaInstagram } from "react-icons/fa";
 
 const ContactPage = () => {
   const form = useRef();
   const { t } = useLanguage();
+  usePageMeta(t.nav.contact, t.contact.metaDescription);
 
-  useEffect(() => {
-    document.title = `Casa da Ponta Negra | ${t.nav.contact}`;
-    return () => { document.title = 'Casa da Ponta Negra'; };
-  }, [t]);
-
-  const [formStatus, setFormStatus] = useState({
-    status: "idle",
-    message: ""
-  });
+  const [formStatus, setFormStatus] = useState({ status: "idle", message: "" });
 
   const sendEmail = (e) => {
     e.preventDefault();
-    setFormStatus({ status: "sending", message: t.contact.sendingBtn });
+    setFormStatus({ status: "sending", message: "" });
 
     emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+      .sendForm(emailjsConfig.serviceId, emailjsConfig.templateId, form.current, emailjsConfig.publicKey)
       .then(
         () => {
           setFormStatus({ status: "success", message: t.contact.successMsg });
@@ -45,84 +36,92 @@ const ContactPage = () => {
 
   const isSending = formStatus.status === "sending";
 
+  const rows = [
+    {
+      Icon: FaMapMarkerAlt,
+      label: t.contact.addressLabel,
+      href: site.mapsUrl,
+      external: true,
+      value: <>Ponta Negra · Baía de São Lourenço<br />9580-114 Vila do Porto<br />Santa Maria, Açores</>,
+    },
+    { Icon: FaPhone, label: t.contact.phoneLabel, href: `tel:${site.phone}`, value: site.phoneDisplay },
+    { Icon: FaEnvelope, label: t.contact.emailLabel, href: `mailto:${site.email}`, value: site.email },
+    { Icon: FaInstagram, label: "Instagram", href: site.social.instagram, external: true, value: "@casapontanegra.sma" },
+  ];
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div className="page">
       <Navbar />
 
-      <section className="contact-section reveal" style={{ flex: 1 }}>
+      <main className="contact-section">
         <div className="contact-wrapper">
 
-          {/* Left — Info */}
-          <div className="contact-left">
-            <h2>{t.contact.title}</h2>
-            <p className="contact-subtitle">{t.contact.subtitle}</p>
+          {/* Esquerda — info */}
+          <div className="contact-left reveal">
+            <span className="eyebrow">{t.contact.eyebrow}</span>
+            <h1 className="section-title">{t.contact.title}</h1>
+            <p className="section-lead">{t.contact.subtitle}</p>
 
             <ul className="contact-info-list">
-              <li className="contact-info-row">
-                <FaMapMarkerAlt className="contact-info-icon" />
-                <div>
-                  <span className="contact-info-label">{t.contact.addressLabel}</span>
-                  <a
-                    href="https://maps.app.goo.gl/8nCDUXo3fRSxScvWA"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact-info-value"
-                  >
-                    Ponta Negra - Baía de São Lourenço<br />
-                    9580-114 Vila do Porto <br />
-                    Santa Maria, Açores
-                  </a>
-                </div>
-              </li>
-
-              <li className="contact-info-row">
-                <FaPhone className="contact-info-icon" />
-                <div>
-                  <span className="contact-info-label">{t.contact.phoneLabel}</span>
-                  <a href="tel:+351963504856" className="contact-info-value">(+351) 963 504 856</a>
-                </div>
-              </li>
-
-              <li className="contact-info-row">
-                <FaEnvelope className="contact-info-icon" />
-                <div>
-                  <span className="contact-info-label">{t.contact.emailLabel}</span>
-                  <a href="mailto:pontanegrahouse@gmail.com" className="contact-info-value">pontanegrahouse@gmail.com</a>
-                </div>
-              </li>
+              {rows.map(({ Icon, label, href, external, value }) => (
+                <li key={label} className="contact-info-row">
+                  <span className="contact-info-icon"><Icon /></span>
+                  <div>
+                    <span className="contact-info-label">{label}</span>
+                    <a href={href} className="contact-info-value" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                      {value}
+                    </a>
+                  </div>
+                </li>
+              ))}
             </ul>
+
+            <div className="contact-book-hint">
+              <span>{t.contact.bookHint}</span>
+              <Link to="/book" className="text-link">{t.contact.bookHintCta} →</Link>
+            </div>
           </div>
 
-          {/* Right — Form */}
-          <div className="contact-right">
-            <h3 className="contact-form-title">{t.contact.formTitle}</h3>
-            <form ref={form} className="contact-form" onSubmit={sendEmail}>
-              <label htmlFor="name-input" className="sr-only">{t.contact.namePlaceholder}</label>
-              <input id="name-input" type="text" name="name" placeholder={t.contact.namePlaceholder} required />
+          {/* Direita — formulário */}
+          <div className="contact-right reveal">
+            <h2 className="contact-form-title">{t.contact.formTitle}</h2>
+            <form ref={form} className="form" onSubmit={sendEmail}>
+              <div className="form__row">
+                <label className="form__field">
+                  <span className="form__label">{t.contact.namePlaceholder}</span>
+                  <input type="text" name="name" autoComplete="name" required />
+                </label>
+                <label className="form__field">
+                  <span className="form__label">{t.contact.emailPlaceholder}</span>
+                  <input type="email" name="email" autoComplete="email" required />
+                </label>
+              </div>
+              <label className="form__field">
+                <span className="form__label">{t.contact.phonePlaceholder}</span>
+                <input type="tel" name="phone" autoComplete="tel" />
+              </label>
+              <label className="form__field">
+                <span className="form__label">{t.contact.messagePlaceholder}</span>
+                <textarea name="message" required></textarea>
+              </label>
 
-              <label htmlFor="email-input" className="sr-only">{t.contact.emailPlaceholder}</label>
-              <input id="email-input" type="email" name="email" placeholder={t.contact.emailPlaceholder} required />
-
-              <label htmlFor="phone-input" className="sr-only">{t.contact.phonePlaceholder}</label>
-              <input id="phone-input" type="tel" name="phone" placeholder={t.contact.phonePlaceholder} />
-
-              <label htmlFor="message-input" className="sr-only">{t.contact.messagePlaceholder}</label>
-              <textarea id="message-input" name="message" placeholder={t.contact.messagePlaceholder} required></textarea>
-
-              <button type="submit" disabled={isSending}>
+              <p className="form__legal">
+                {t.legal.consent} <Link to="/privacy">{t.legal.privacy}</Link>.
+              </p>
+              <button type="submit" className="btn btn--blue" disabled={isSending}>
                 {isSending ? t.contact.sendingBtn : t.contact.sendBtn}
               </button>
             </form>
 
             {formStatus.message && (
-              <p className={`status-message ${formStatus.status}`}>
+              <p className={`status-message ${formStatus.status}`} role="status">
                 {formStatus.message}
               </p>
             )}
           </div>
 
         </div>
-      </section>
+      </main>
 
       <Footer />
     </div>

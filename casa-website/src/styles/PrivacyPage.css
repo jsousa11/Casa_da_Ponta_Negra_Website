@@ -1,0 +1,29 @@
+.privacy {
+  background: var(--c-lime);
+  padding: calc(var(--nav-h) + clamp(40px, 6vw, 80px)) var(--gutter) clamp(64px, 8vw, 110px);
+}
+
+.privacy__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.privacy__updated {
+  font-size: 13px;
+  color: var(--c-ink-soft);
+  margin-bottom: 40px;
+}
+
+.privacy section + section { margin-top: 30px; }
+
+.privacy h2 {
+  font-size: 22px;
+  color: var(--c-blue-deep);
+  margin-bottom: 8px;
+}
+
+.privacy p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--c-ink);
+}

@@ -1,3 +1,53 @@
+/* ==========================================
+   DESIGN TOKENS — paleta inspirada na casa:
+   cal branca, azul das janelas de Santa Maria,
+   verde das vinhas e mostarda dos têxteis
+   ========================================== */
+
+:root {
+  --c-white: #FFFFFF;
+  --c-lime: #FAF8F4;          /* branco-cal — fundo principal */
+  --c-sand: #F2ECE2;          /* fundo alternativo */
+  --c-sand-deep: #E7DCCB;
+  --c-line: rgba(30, 35, 32, 0.12);
+
+  --c-blue: #1E4A8A;          /* azul Santa Maria — marca */
+  --c-blue-deep: #142F57;     /* secções escuras, footer */
+  --c-blue-soft: #DCE5F1;
+
+  --c-green: #2F3E29;         /* verde-vinha */
+  --c-sage: #A8B89F;
+  --c-sage-soft: #E4EADF;
+
+  --c-accent: #4E8040;        /* verde-vinha vivo — botões principais */
+  --c-accent-hover: #3F6B34;
+  --c-accent-light: #A8D08D;  /* verde claro para pormenores em fundos escuros */
+
+  --c-ink: #1E2320;           /* texto */
+  --c-ink-soft: #5A6157;
+  --c-on-dark: #F4F1EA;
+  --c-on-dark-soft: rgba(244, 241, 234, 0.72);
+
+  --c-success-bg: #E7F0E3;
+  --c-success: #2F5A2A;
+  --c-error-bg: #FBEDEC;
+  --c-error: #9D2B2B;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Lato', system-ui, sans-serif;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 6px 28px rgba(20, 47, 87, 0.10);
+  --shadow-lg: 0 14px 44px rgba(20, 47, 87, 0.16);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --nav-h: 88px;
+  --gutter: clamp(16px, 5vw, 72px);
+
+  font-synthesis: none;
+}
+
 /* Reset e configuração global */
 * {
   margin: 0;
@@ -9,38 +59,339 @@ html, body {
   width: 100%;
   min-height: 100%;
   overflow-x: hidden;
-  background-color: #2F3E29;
-  font-family: 'Lato', sans-serif;
+  background-color: var(--c-blue-deep);
+  font-family: var(--font-sans);
   font-weight: 400;
   line-height: 1.7;
-  color: #2F3E29;
+  color: var(--c-ink);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+main, .page {
+  background: var(--c-lime);
+}
+
 h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-weight: 400;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   line-height: 1.2;
 }
 
-:root {
-  font-synthesis: none;
+img { max-width: 100%; }
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* ── Tipografia de secção ── */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: clamp(30px, 4vw, 46px);
+  color: var(--c-blue-deep);
+  margin-bottom: 14px;
+}
+
+.section-lead {
+  font-size: clamp(16px, 1.4vw, 18px);
+  font-weight: 300;
+  color: var(--c-ink-soft);
+  max-width: 620px;
+  line-height: 1.7;
+}
+
+.section-head {
+  text-align: center;
+  margin: 0 auto 48px;
+  max-width: 720px;
+}
+
+.section-head .section-lead { margin: 0 auto; }
+
+/* ── Botões ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease),
+              transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn--primary {
+  background: var(--c-accent);
+  color: var(--c-white);
+  box-shadow: 0 6px 20px rgba(78, 128, 64, 0.35);
+}
+.btn--primary:hover {
+  background: var(--c-accent-hover);
+  box-shadow: 0 10px 28px rgba(78, 128, 64, 0.45);
+}
+
+.btn--blue {
+  background: var(--c-blue);
+  color: var(--c-white);
+}
+.btn--blue:hover { background: var(--c-blue-deep); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--c-blue-deep);
+  border-color: rgba(20, 47, 87, 0.35);
+}
+.btn--ghost:hover {
+  background: var(--c-blue-deep);
+  border-color: var(--c-blue-deep);
+  color: var(--c-white);
+}
+
+.btn--light {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--c-white);
+  border-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.btn--light:hover {
+  background: var(--c-white);
+  color: var(--c-blue-deep);
+  border-color: var(--c-white);
+}
+
+.btn--sm { padding: 10px 20px; font-size: 12px; }
+
+.text-link {
+  color: var(--c-blue);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(30, 74, 138, 0.3);
+  transition: border-color 0.2s, color 0.2s;
+}
+.text-link:hover { border-color: var(--c-blue); }
+button.text-link {
+  background: none;
+  border-width: 0 0 1px;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-sans);
 }
 
 /* ── Scroll Reveal ── */
 .reveal {
   opacity: 0;
   transform: translateY(36px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
 }
 .reveal--visible {
   opacity: 1;
   transform: translateY(0);
 }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal--visible.reveal-stagger > *,
+.reveal--visible .reveal-stagger > * {
+  opacity: 1;
+  transform: none;
+}
+.reveal-stagger > *:nth-child(2) { transition-delay: 0.08s; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 0.16s; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 0.24s; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 0.32s; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 0.40s; }
+.reveal-stagger > *:nth-child(7) { transition-delay: 0.48s; }
+.reveal-stagger > *:nth-child(8) { transition-delay: 0.56s; }
+
+/* Zoom suave nas fotos dentro de molduras */
+.zoom-frame { overflow: hidden; }
+.zoom-frame img { transition: transform 1.2s var(--ease); }
+.zoom-frame:hover img { transform: scale(1.05); }
+
+/* Hero partilhado das páginas interiores */
+.page-hero {
+  position: relative;
+  height: clamp(340px, 62vh, 600px);
+  overflow: hidden;
+  color: var(--c-white);
+}
+.page-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenburns 24s ease-out forwards;
+}
+.page-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 22, 40, 0.40) 0%, rgba(10, 22, 40, 0) 30%),
+    linear-gradient(90deg, rgba(10, 22, 40, 0.65) 0%, rgba(10, 22, 40, 0.2) 50%, rgba(10, 22, 40, 0) 75%),
+    linear-gradient(0deg, rgba(10, 22, 40, 0.7) 0%, rgba(10, 22, 40, 0) 55%);
+}
+.page-hero__text {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(28px, 6vh, 64px);
+  z-index: 2;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+.page-hero__text .eyebrow { color: var(--c-accent-light); }
+.page-hero__text h1 {
+  font-size: clamp(34px, 5.5vw, 64px);
+  margin-bottom: 12px;
+}
+.page-hero__text p {
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 300;
+  max-width: 600px;
+  opacity: 0.94;
 }
 
+@keyframes kenburns {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Formulários partilhados (contacto + reserva) ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+}
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: var(--font-sans);
+  background: var(--c-white);
+  color: var(--c-ink);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(30, 74, 138, 0.14);
+}
+.form textarea { min-height: 130px; resize: vertical; }
+.form .btn { align-self: flex-start; margin-top: 6px; }
+.form__legal {
+  font-size: 12px;
+  color: var(--c-ink-soft);
+}
+.form__legal a { color: var(--c-blue); }
+
+.status-message {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+.status-message.success { color: var(--c-success); background: var(--c-success-bg); }
+.status-message.error   { color: var(--c-error);   background: var(--c-error-bg); }
+
+@media (max-width: 600px) {
+  :root { --nav-h: 64px; }
+  .form__row { grid-template-columns: 1fr; }
+  .form .btn { align-self: stretch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .reveal-stagger > * { opacity: 1; transform: none; }
+}
+
+/* Em fundos escuros o verde-vinha tem pouco contraste — usa o verde claro */
+.book-section .eyebrow,
+.experiences .eyebrow,
+.feature-section--dark .eyebrow {
+  color: var(--c-accent-light);
+}
