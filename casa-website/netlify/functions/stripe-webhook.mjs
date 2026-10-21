@@ -1,7 +1,8 @@
 // O Stripe chama este endereço quando um pagamento é concluído, expira ou é reembolsado.
 // No Stripe: Programadores → Webhooks → Adicionar destino
 //   URL: https://<o-site>/.netlify/functions/stripe-webhook
-//   Eventos: checkout.session.completed, checkout.session.expired, charge.refunded
+//   Eventos: checkout.session.completed, checkout.session.async_payment_succeeded,
+//            checkout.session.async_payment_failed, checkout.session.expired, charge.refunded
 // O "segredo de assinatura" (whsec_…) vai para STRIPE_WEBHOOK_SECRET na Netlify.
 import { quote } from "../../src/config/pricing.js";
 import { getBooking, saveBooking, listBookings } from "./lib/bookings.mjs";
@@ -48,10 +49,16 @@ export default async (req) => {
   const booking = await getBooking(id);
   if (!booking) return ok();
 
-  if (event.type === "checkout.session.completed" && session.payment_status === "paid" && booking.status !== "paid") {
+  const paid = event.type === "checkout.session.async_payment_succeeded" ||
+    (event.type === "checkout.session.completed" && session.payment_status === "paid");
+
+  if (paid && booking.status !== "paid") {
     await saveBooking({ ...booking, status: "paid", paidAt: Date.now(), paymentIntent: session.payment_intent });
     await notify(booking);
-  } else if (event.type === "checkout.session.expired" && booking.status !== "paid") {
+  } else if (event.type === "checkout.session.completed" && booking.status === "hold") {
+    // Pagamento ainda a confirmar (pode acontecer com o MB WAY): as datas continuam guardadas
+    await saveBooking({ ...booking, status: "processing" });
+  } else if ((event.type === "checkout.session.async_payment_failed" || event.type === "checkout.session.expired") && booking.status !== "paid") {
     await saveBooking({ ...booking, status: "cancelled" });
   }
   return ok();
