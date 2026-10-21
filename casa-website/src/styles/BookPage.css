@@ -309,7 +309,7 @@
 
 .book-submit { align-self: stretch !important; margin: 8px 0 10px !important; }
 
-/* ── Pedido enviado ── */
+/* ── Reserva confirmada ── */
 .book-done {
   background: var(--c-white);
   border-radius: var(--radius);

@@ -1,11 +1,30 @@
 // Reserva imediata: confirma datas e preço, retém as datas 30 min e abre o pagamento no Stripe.
 // Configurar na Netlify: STRIPE_SECRET_KEY e STRIPE_WEBHOOK_SECRET (ver stripe-webhook.mjs).
 import process from "node:process";
+import crypto from "node:crypto";
 import { quote, rangeIsFree } from "../../src/config/pricing.js";
 import { site } from "../../src/config/site.js";
-import { getAllBusy, saveBooking, newBookingId, HOLD_MINUTES } from "./lib/bookings.mjs";
+import { getAllBusy, activeHolds, saveBooking, newBookingId, HOLD_MINUTES } from "./lib/bookings.mjs";
 import { stripe, stripeConfigured } from "./lib/stripe.mjs";
 import { json, readBooking } from "./lib/validate.mjs";
+
+// Máximo de pessoas diferentes a pagar ao mesmo tempo (evita que alguém bloqueie o calendário)
+const MAX_HOLDS = 5;
+
+// Identifica o visitante sem guardar o IP: só um resumo (hash) dele
+const clientId = (req) => {
+  const ip = req.headers.get("x-nf-client-connection-ip") || req.headers.get("x-forwarded-for") || "";
+  return ip ? crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16) : null;
+};
+
+// Fecha a página de pagamento anterior e liberta as datas.
+// Se o Stripe recusar (o pagamento já foi feito), a retenção fica como está.
+const release = async (hold) => {
+  try {
+    await stripe(`checkout/sessions/${hold.sessionId}/expire`, {});
+    await saveBooking({ ...hold, status: "cancelled" });
+  } catch { /* já pago ou já expirado */ }
+};
 
 export default async (req) => {
   if (req.method !== "POST") return json(405, { error: "method" });
@@ -21,6 +40,13 @@ export default async (req) => {
   const q = quote(b.checkIn, b.checkOut, b.adults + b.children);
   if (!q) return json(400, { error: "closed" });
 
+  // Cada pessoa só retém umas datas de cada vez: ao tentar de novo, a tentativa anterior é libertada
+  const client = clientId(req);
+  const holds = await activeHolds();
+  const mine = holds.filter((h) => (client && h.client === client) || h.email === b.email);
+  await Promise.all(mine.map(release));
+  if (holds.length - mine.length >= MAX_HOLDS) return json(429, { error: "busy" });
+
   const today = new Date().toISOString().slice(0, 10);
   const { busy } = await getAllBusy();
   if (!rangeIsFree(b.checkIn, b.checkOut, busy, today)) return json(409, { error: "unavailable" });
@@ -32,6 +58,7 @@ export default async (req) => {
   try {
     const session = await stripe("checkout/sessions", {
       mode: "payment",
+      payment_method_types: { 0: "card" }, // só cartão (inclui Apple Pay e Google Pay)
       customer_email: b.email,
       locale: b.lang === "pt" ? "pt" : "en",
       client_reference_id: id,
@@ -55,7 +82,7 @@ export default async (req) => {
       metadata: { booking_id: id, check_in: b.checkIn, check_out: b.checkOut },
     });
 
-    await saveBooking({ id, ...b, total: q.direct, status: "hold", sessionId: session.id, livemode: session.livemode, createdAt: Date.now() });
+    await saveBooking({ id, ...b, client, total: q.direct, status: "hold", sessionId: session.id, livemode: session.livemode, createdAt: Date.now() });
     return json(200, { url: session.url });
   } catch (err) {
     console.error("Checkout:", err.message);

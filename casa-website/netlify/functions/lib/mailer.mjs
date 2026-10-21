@@ -7,8 +7,8 @@ const HOST_NAME = "Paulo";
 
 export const mailConfigured = () => Boolean(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
 
-/** Envia a ficha aos anfitriões e a mensagem ao hóspede. kind: "request" | "confirmed" | "processing" */
-export const sendBookingEmails = async ({ b, q, kind, payUrl = null, test = false }) => {
+/** Envia a ficha aos anfitriões e a confirmação ao hóspede (reserva paga) */
+export const sendBookingEmails = async ({ b, q, test = false }) => {
   const user = process.env.GMAIL_USER;
   const transport = nodemailer.createTransport({
     service: "gmail",
@@ -19,8 +19,8 @@ export const sendBookingEmails = async ({ b, q, kind, payUrl = null, test = fals
 
   // Pagamentos de teste do Stripe: assinala no assunto
   const tag = test ? "[TESTE] " : "";
-  const owner = ownerEmail({ b, q, siteUrl, payUrl, kind });
+  const owner = ownerEmail({ b, q, siteUrl });
   await transport.sendMail({ from, to: user, replyTo: `"${b.name}" <${b.email}>`, ...owner, subject: tag + owner.subject });
-  const guest = guestEmail({ b, q, siteUrl, hostName: HOST_NAME, kind });
+  const guest = guestEmail({ b, q, siteUrl, hostName: HOST_NAME });
   await transport.sendMail({ from, to: b.email, replyTo: user, ...guest, subject: tag + guest.subject });
 };

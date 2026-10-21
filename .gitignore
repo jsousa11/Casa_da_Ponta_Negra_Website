@@ -40,3 +40,16 @@ Thumbs.db
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Ficheiros pessoais (códigos, chaves, palavras-passe) — nunca vão para o GitHub
+*backup*code*
+*recovery*
+*secret*
+*password*
+*passe*
+*codigo*
+*código*
+*.pem
+*.key
+.env
+.env.*

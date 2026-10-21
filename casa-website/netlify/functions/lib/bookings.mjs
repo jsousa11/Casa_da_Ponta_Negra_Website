@@ -1,6 +1,5 @@
 // Reservas diretas guardadas na Netlify (Netlify Blobs).
-// Estados: "hold" (à espera de pagamento, 30 min) · "processing" (Multibanco/MB Way a confirmar)
-//          "paid" (confirmada) · "cancelled"
+// Estados: "hold" (à espera de pagamento, 30 min) · "paid" (confirmada) · "cancelled"
 import { getStore } from "@netlify/blobs";
 import snapshot from "../../../src/config/availability-snapshot.json";
 import { getBusy } from "./calendar.mjs";
@@ -22,11 +21,11 @@ export const listBookings = async () => {
   return all.filter(Boolean);
 };
 
-// Reservas que ocupam datas: pagas, a confirmar, ou retidas há menos de 30 min.
+// Reservas que ocupam datas: pagas ou retidas há menos de 30 min.
 // As reservas de teste do Stripe (livemode: false) nunca bloqueiam datas.
 const isActive = (b, now = Date.now()) =>
   b.livemode !== false && (
-    b.status === "paid" || b.status === "processing" ||
+    b.status === "paid" ||
     (b.status === "hold" && now - b.createdAt < HOLD_MINUTES * 60000)
   );
 
@@ -39,6 +38,9 @@ export const activeDirectBookings = async () => {
     return [];
   }
 };
+
+/** Reservas à espera de pagamento (retidas há menos de 30 min) */
+export const activeHolds = async () => (await activeDirectBookings()).filter((b) => b.status === "hold");
 
 /** Todas as noites ocupadas: calendários das plataformas + reservas diretas */
 export const getAllBusy = async () => {
