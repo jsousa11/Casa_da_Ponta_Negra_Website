@@ -41,7 +41,7 @@ número de registo AL (`rnal`), preço "desde" (`priceFrom`), horários de check
 
 Fluxo: o hóspede escolhe datas → `create-checkout` confirma disponibilidade e preço, retém as datas 30 min e abre o Stripe →
 ao pagar, o Stripe chama `stripe-webhook` → reserva marcada como paga, emails enviados → `direct-calendar` publica as
-reservas diretas para o Airbnb e o Booking importarem. Só se aceita pagamento por cartão.
+reservas diretas para o Airbnb e o Booking importarem. Métodos: cartão (com Apple Pay e Google Pay), MB WAY e Revolut Pay.
 
 Preços, suplemento por pessoa, desconto e regras: `src/config/pricing.js`.
 
@@ -56,7 +56,7 @@ Preços, suplemento por pessoa, desconto e regras: `src/config/pricing.js`.
 
 ### Stripe → webhook
 Programadores → Webhooks → Adicionar destino: `https://<site>/.netlify/functions/stripe-webhook`, com os eventos
-`checkout.session.completed`, `checkout.session.expired`, `charge.refunded`.
+`checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `checkout.session.expired`, `charge.refunded`.
 Reservas feitas com chaves de teste não bloqueiam datas; os emails levam "[TESTE]" no assunto.
 
 ### Airbnb e Booking → importar reservas diretas
