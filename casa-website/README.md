@@ -41,7 +41,7 @@ número de registo AL (`rnal`), preço "desde" (`priceFrom`), horários de check
 
 Fluxo: o hóspede escolhe datas → `create-checkout` confirma disponibilidade e preço, retém as datas 30 min e abre o Stripe →
 ao pagar, o Stripe chama `stripe-webhook` → reserva marcada como paga, emails enviados → `direct-calendar` publica as
-reservas diretas para o Airbnb e o Booking importarem. Métodos: cartão (com Apple Pay e Google Pay), MB WAY e Revolut Pay.
+reservas diretas para o Airbnb e o Booking importarem. Os métodos de pagamento são os ativos no painel do Stripe (Settings → Payment methods): cartão, Apple Pay, Google Pay, Link, MB WAY e Revolut Pay.
 
 Preços, suplemento por pessoa, desconto e regras: `src/config/pricing.js`.
 

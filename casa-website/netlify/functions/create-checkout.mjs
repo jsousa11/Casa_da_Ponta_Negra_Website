@@ -8,10 +8,6 @@ import { getAllBusy, activeHolds, saveBooking, newBookingId, HOLD_MINUTES } from
 import { stripe, stripeConfigured } from "./lib/stripe.mjs";
 import { json, readBooking } from "./lib/validate.mjs";
 
-// Métodos de pagamento (Apple Pay e Google Pay vêm com o cartão).
-// Têm de estar ativos no Stripe; se algum não estiver, abre só com cartão.
-const METHODS = ["card", "mb_way", "revolut_pay"];
-
 // Máximo de pessoas diferentes a pagar ao mesmo tempo (evita que alguém bloqueie o calendário)
 const MAX_HOLDS = 5;
 
@@ -59,7 +55,10 @@ export default async (req) => {
   const siteUrl = (process.env.URL || new URL(req.url).origin).replace(/\/$/, "");
   const nightsLabel = b.lang === "pt" ? "noites" : "nights";
 
-  const params = {
+  try {
+    // Os métodos de pagamento (cartão, MB WAY, Revolut Pay...) são os que estão ativos
+    // no painel do Stripe: Settings → Payment methods
+    const session = await stripe("checkout/sessions", {
       mode: "payment",
       customer_email: b.email,
       locale: b.lang === "pt" ? "pt" : "en",
@@ -82,17 +81,7 @@ export default async (req) => {
       },
       payment_intent_data: { description: `${site.name} ${b.checkIn} → ${b.checkOut} · ${b.name}` },
       metadata: { booking_id: id, check_in: b.checkIn, check_out: b.checkOut },
-  };
-  const open = (methods) => stripe("checkout/sessions", { ...params, payment_method_types: { ...methods } });
-
-  try {
-    let session;
-    try {
-      session = await open(METHODS);
-    } catch (err) {
-      console.error("Checkout (métodos extra):", err.message);
-      session = await open(["card"]);
-    }
+    });
 
     await saveBooking({ id, ...b, client, total: q.direct, status: "hold", sessionId: session.id, livemode: session.livemode, createdAt: Date.now() });
     return json(200, { url: session.url });
