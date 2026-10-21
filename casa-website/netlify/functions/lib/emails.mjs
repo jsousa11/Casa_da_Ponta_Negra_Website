@@ -1,5 +1,4 @@
 // Emails de reserva: um para os anfitriões, outro para o hóspede.
-// kind: "request" (pedido sem pagamento) · "confirmed" (pago) · "processing" (Multibanco por pagar)
 // HTML em tabelas e estilos inline (é o que os clientes de email suportam).
 import { site } from "../../../src/config/site.js";
 
@@ -11,7 +10,6 @@ const C = {
   blue: "#142F57",
   green: "#4E8040",
   line: "#E5DED2",
-  amber: "#9A6A12",
 };
 
 const esc = (s = "") =>
@@ -72,51 +70,21 @@ const layout = ({ siteUrl, preheader, hero, body }) => `<!doctype html>
 
 // ───────────────────────── Anfitriões ─────────────────────────
 
-const ownerKinds = {
-  request: {
-    eyebrow: "Novo pedido de reserva",
-    badge: badge("Por confirmar", C.amber),
-    subject: "Pedido de reserva",
-    priceLabel: "Preço no site",
-    steps: (q) => [
-      "Confirmar que as datas estão livres no Airbnb e no Booking.",
-      `Responder ao hóspede com o total (${eur(q.direct)}) e as formas de pagamento: transferência, MB Way ou cartão. Prazo: 48 horas.`,
-      "Quando o pagamento entrar, confirmar ao hóspede e <strong>bloquear as datas no Airbnb e no Booking</strong>.",
-    ],
-  },
-  confirmed: {
-    eyebrow: "Nova reserva direta",
-    badge: badge("Paga", C.green),
-    subject: "✅ Reserva paga",
-    priceLabel: "Valor pago",
-    steps: () => [
-      "Não precisa de aceitar nada: a reserva está paga e o hóspede já recebeu a confirmação.",
-      "O Airbnb e o Booking bloqueiam estas datas sozinhos na próxima sincronização (pode demorar algumas horas). Se quiser, confirme lá.",
-      "Passar a fatura ao hóspede.",
-      "Uns dias antes, combinar a hora de chegada.",
-    ],
-  },
-  processing: {
-    eyebrow: "Reserva à espera de pagamento",
-    badge: badge("Multibanco por pagar", C.amber),
-    subject: "⏳ Reserva a aguardar pagamento",
-    priceLabel: "Valor a pagar",
-    steps: () => [
-      "O hóspede escolheu pagar por referência Multibanco. As datas ficam guardadas até ao fim do prazo de pagamento.",
-      "Quando o pagamento entrar, recebe outro email a dizer \"Reserva paga\". Se não pagar, as datas voltam a ficar livres.",
-    ],
-  },
-};
+const ownerSteps = [
+  "Não precisa de aceitar nada: a reserva está paga e o hóspede já recebeu a confirmação.",
+  "O Airbnb e o Booking bloqueiam estas datas sozinhos na próxima sincronização (pode demorar algumas horas). Se quiser, confirme lá.",
+  "Passar a fatura ao hóspede.",
+  "Uns dias antes, combinar a hora de chegada.",
+];
 
-export const ownerEmail = ({ b, q, siteUrl, payUrl, kind = "request" }) => {
-  const K = ownerKinds[kind];
+export const ownerEmail = ({ b, q, siteUrl }) => {
   const nightsText = q.lines.map((l) => `${l.nights} × ${eur(l.nightly)}`).join(" + ");
   const phoneDigits = (b.phone || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
   const replySubject = encodeURIComponent(`Casa da Ponta Negra: ${fmtDate(b.checkIn, b.lang)} – ${fmtDate(b.checkOut, b.lang)}`);
 
   const body = `
-    <p style="margin:0 0 10px">${K.badge}</p>
-    <p style="margin:0 0 6px;color:${C.green};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase">${K.eyebrow}</p>
+    <p style="margin:0 0 10px">${badge("Paga", C.green)}</p>
+    <p style="margin:0 0 6px;color:${C.green};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase">Nova reserva direta</p>
     <h1 style="margin:0 0 4px;font-family:Georgia,serif;font-weight:400;font-size:26px;color:${C.blue}">${esc(b.name)}</h1>
     <p style="margin:0 0 22px;color:${C.soft};font-size:15px">${fmtDate(b.checkIn, "pt")} → ${fmtDate(b.checkOut, "pt")} · ${q.nights} noites</p>
 
@@ -124,26 +92,20 @@ export const ownerEmail = ({ b, q, siteUrl, payUrl, kind = "request" }) => {
       ${row("Chegada", `${fmtDate(b.checkIn, "pt")}${site.checkIn ? ` · a partir das ${site.checkIn}` : ""}`)}
       ${row("Partida", `${fmtDate(b.checkOut, "pt")}${site.checkOut ? ` · até às ${site.checkOut}` : ""}`)}
       ${row("Hóspedes", guestsText(b, "pt"))}
-      ${row(K.priceLabel, `<strong>${eur(q.direct)}</strong><br><span style="color:${C.soft};font-size:13px">${nightsText} · nas plataformas seria ${eur(q.platform)}</span>`)}
+      ${row("Valor pago", `<strong>${eur(q.direct)}</strong><br><span style="color:${C.soft};font-size:13px">${nightsText} · nas plataformas seria ${eur(q.platform)}</span>`)}
       ${row("Email", `<a href="mailto:${esc(b.email)}" style="color:${C.blue}">${esc(b.email)}</a>`)}
       ${row("Telefone", b.phone ? `<a href="tel:${esc(b.phone)}" style="color:${C.blue}">${esc(b.phone)}</a>${phoneDigits.length > 8 ? ` · <a href="https://wa.me/${phoneDigits}" style="color:${C.green}">WhatsApp</a>` : ""}` : "—")}
       ${row("Idioma", b.lang === "pt" ? "Português" : "Inglês")}
       ${row("Mensagem", b.message ? esc(b.message).replace(/\n/g, "<br>") : "—")}
     </table>
 
-    ${payUrl ? `
-    <div style="margin:26px 0 0;padding:18px 20px;background:#EEF4EA;border-radius:10px">
-      <p style="margin:0 0 6px;font-weight:700;color:${C.ink}">Link de pagamento (${eur(q.direct)})</p>
-      <a href="${payUrl}" style="color:${C.green};word-break:break-all;font-size:14px">${payUrl}</a>
-    </div>` : ""}
-
     ${h2("Próximos passos")}
-    ${steps(K.steps(q))}
+    ${steps(ownerSteps)}
 
     <p style="margin:26px 0 0">${button(`mailto:${esc(b.email)}?subject=${replySubject}`, "Responder ao hóspede")}</p>`;
 
   return {
-    subject: `${K.subject}: ${fmtDate(b.checkIn, "pt")} – ${fmtDate(b.checkOut, "pt")} · ${q.nights} noites · ${b.name}`,
+    subject: `✅ Reserva paga: ${fmtDate(b.checkIn, "pt")} – ${fmtDate(b.checkOut, "pt")} · ${q.nights} noites · ${b.name}`,
     html: layout({ siteUrl, preheader: `${guestsText(b, "pt")} · ${eur(q.direct)}`, body }),
   };
 };
@@ -161,18 +123,6 @@ const guestTexts = {
     cancel: "Se cancelar até 30 dias antes da chegada, devolvemos o valor total. Com menos de 30 dias, não há reembolso.",
     questions: "Alguma dúvida? Basta responder a este email.",
     bye: "Até breve,",
-    request: {
-      subject: "Recebemos o seu pedido de reserva",
-      badge: badge("Pedido recebido", C.amber),
-      intro: "Obrigado pelo seu pedido. Vamos confirmar a disponibilidade e responder em menos de 24 horas.",
-      totalLabel: "Total estimado",
-      nextTitle: "O que acontece a seguir",
-      next: [
-        "Confirmamos a disponibilidade e enviamos as formas de pagamento: transferência bancária, MB Way ou cartão.",
-        "Paga o valor total nas 48 horas seguintes. A reserva fica confirmada quando recebermos o pagamento.",
-      ],
-      cta: "Ver a casa",
-    },
     confirmed: {
       subject: "Reserva confirmada",
       badge: badge("Reserva confirmada", C.green),
@@ -187,18 +137,6 @@ const guestTexts = {
       cta: "Como chegar e FAQ",
       ctaPath: "/info",
     },
-    processing: {
-      subject: "Reserva a aguardar pagamento",
-      badge: badge("A aguardar pagamento", C.amber),
-      intro: "As suas datas estão guardadas. Assim que o pagamento Multibanco for recebido, enviamos a confirmação da reserva.",
-      totalLabel: "Total a pagar",
-      nextTitle: "O que falta",
-      next: [
-        "Pague a referência Multibanco que recebeu do Stripe dentro do prazo indicado.",
-        "Se o pagamento não for feito no prazo, a reserva é cancelada e as datas ficam novamente livres.",
-      ],
-      cta: "Ver a casa",
-    },
   },
   en: {
     hello: (n) => `Hi ${n},`,
@@ -208,18 +146,6 @@ const guestTexts = {
     cancel: "Cancel up to 30 days before arrival for a full refund. Less than 30 days before: no refund.",
     questions: "Any questions? Just reply to this email.",
     bye: "See you soon,",
-    request: {
-      subject: "We've received your booking request",
-      badge: badge("Request received", C.amber),
-      intro: "Thank you for your request. We'll check availability and get back to you within 24 hours.",
-      totalLabel: "Estimated total",
-      nextTitle: "What happens next",
-      next: [
-        "We confirm availability and send you the payment options: bank transfer, MB Way or card.",
-        "You pay the full amount within 48 hours. Your booking is confirmed once we receive the payment.",
-      ],
-      cta: "See the house",
-    },
     confirmed: {
       subject: "Booking confirmed",
       badge: badge("Booking confirmed", C.green),
@@ -234,24 +160,12 @@ const guestTexts = {
       cta: "Getting here & FAQ",
       ctaPath: "/info",
     },
-    processing: {
-      subject: "Booking awaiting payment",
-      badge: badge("Awaiting payment", C.amber),
-      intro: "Your dates are on hold. As soon as your Multibanco payment arrives, we'll send your booking confirmation.",
-      totalLabel: "Total due",
-      nextTitle: "What's left",
-      next: [
-        "Pay the Multibanco reference you received from Stripe before the deadline shown.",
-        "If the payment isn't made in time, the booking is cancelled and the dates become available again.",
-      ],
-      cta: "See the house",
-    },
   },
 };
 
-export const guestEmail = ({ b, q, siteUrl, hostName, kind = "request" }) => {
+export const guestEmail = ({ b, q, siteUrl, hostName }) => {
   const L = guestTexts[b.lang] || guestTexts.en;
-  const K = L[kind];
+  const K = L.confirmed;
   const body = `
     <p style="margin:0 0 14px">${K.badge}</p>
     <p style="margin:0 0 14px;font-family:Georgia,serif;font-size:22px;color:${C.blue}">${esc(L.hello(b.name.split(" ")[0]))}</p>
@@ -272,7 +186,7 @@ export const guestEmail = ({ b, q, siteUrl, hostName, kind = "request" }) => {
     <p style="margin:16px 0 0;color:${C.soft};font-size:13px">${L.cancel}</p>
 
     <p style="margin:24px 0 0;color:${C.ink};font-size:15px">${L.questions}</p>
-    ${siteUrl ? `<p style="margin:24px 0 0">${button(`${siteUrl}${K.ctaPath || "/property"}`, K.cta, C.blue)}</p>` : ""}
+    ${siteUrl ? `<p style="margin:24px 0 0">${button(`${siteUrl}${K.ctaPath}`, K.cta, C.blue)}</p>` : ""}
     <p style="margin:28px 0 0;color:${C.ink};font-size:15px">${L.bye}<br><strong>${esc(hostName)}</strong><br>${site.name}</p>`;
 
   return {

@@ -3,13 +3,12 @@ import { Link, useSearchParams } from "react-router-dom";
 import { DayPicker } from "react-day-picker";
 import { pt, enGB } from "react-day-picker/locale";
 import "react-day-picker/style.css";
-import emailjs from "@emailjs/browser";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { netlifyImageUrl } from "../components/NImg";
 import usePageMeta from "../hooks/usePageMeta";
 import { useLanguage } from "../context/LanguageContext";
-import { site, emailjsConfig } from "../config/site";
+import { site } from "../config/site";
 import {
   pricing, quote, toISODate, fromISODate, addDaysISO, nightsBetween,
   isNightBusy, isNightBookable, rangeIsFree,
@@ -62,8 +61,6 @@ const BookPage = () => {
   const [params] = useSearchParams();
   const [status, setStatus] = useState(params.get("status") === "paid" ? "paid" : "idle");
   const paymentCancelled = params.get("status") === "cancelled";
-  // false = Stripe ainda não configurado: o botão envia um pedido em vez de pagar
-  const [instantBooking, setInstantBooking] = useState(true);
 
   const min = pricing.minNights;
   const canCheckIn = (iso) => isNightBookable(iso, busy, todayISO) && rangeIsFree(iso, addDaysISO(iso, min), busy, todayISO);
@@ -99,62 +96,23 @@ const BookPage = () => {
   const fmt = (iso) =>
     new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-GB", { weekday: "short", day: "numeric", month: "long" }).format(fromISODate(iso));
 
-  // Plano B (antes de configurar o Gmail na Netlify): envia pelo EmailJS
-  const sendViaEmailJS = (payload) => {
-    const message = [
-      "PEDIDO DE RESERVA",
-      `Chegada: ${payload.checkIn}`,
-      `Partida: ${payload.checkOut} (${q.nights} noites)`,
-      `Hóspedes: ${payload.adults} adultos, ${payload.children} crianças, ${payload.infants} bebés`,
-      `Preço no site: ${eur(q.direct)} (plataformas: ${eur(q.platform)})`,
-      `Idioma: ${payload.lang}`,
-      "",
-      payload.message,
-    ].join("\n");
-    return emailjs.send(emailjsConfig.serviceId, emailjsConfig.templateId,
-      { name: payload.name, email: payload.email, phone: payload.phone, message }, emailjsConfig.publicKey);
-  };
-
-  const post = (fn, payload) =>
-    fetch(`/.netlify/functions/${fn}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
+  // Confirma datas e preço no servidor e segue para o pagamento no Stripe
   const submit = async (e) => {
     e.preventDefault();
     if (!q) return;
     setStatus("sending");
     const payload = { checkIn: range.from, checkOut: range.to, ...guests, ...form, lang };
-
-    // 1.º reserva imediata com pagamento (Stripe)
-    if (instantBooking) {
-      try {
-        const res = await post("create-checkout", payload);
-        const data = res.headers.get("content-type")?.includes("application/json") ? await res.json() : null;
-        if (res.ok && data?.url) { window.location.assign(data.url); return; }
-        if (res.status === 409) { setStatus("unavailable"); return; }
-        if (data && res.status !== 503) { setStatus("error"); return; }
-      } catch { /* sem servidor (desenvolvimento): segue para o pedido */ }
-      setInstantBooking(false);
-    }
-
-    // 2.º plano B: pedido de reserva por email
     try {
-      const res = await fetch("/.netlify/functions/booking-request", {
+      const res = await fetch("/.netlify/functions/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const isJson = res.headers.get("content-type")?.includes("application/json");
-      if (res.ok && isJson) { setStatus("success"); return; }
-      if (res.status === 409) { setStatus("unavailable"); return; }
-      if (isJson && res.status !== 503) { setStatus("error"); return; }
-      await sendViaEmailJS(payload);
-      setStatus("success");
+      const data = res.headers.get("content-type")?.includes("application/json") ? await res.json() : null;
+      if (res.ok && data?.url) { window.location.assign(data.url); return; }
+      setStatus(res.status === 409 ? "unavailable" : res.status === 429 ? "busy" : "error");
     } catch {
-      try { await sendViaEmailJS(payload); setStatus("success"); } catch { setStatus("error"); }
+      setStatus("error");
     }
   };
 
@@ -186,13 +144,6 @@ const BookPage = () => {
                 <h2>{T.paidTitle}</h2>
                 <p>{T.paid}</p>
                 <Link to="/info" className="btn btn--ghost">{t.nav.info}</Link>
-              </div>
-            ) : status === "success" ? (
-              <div className="book-done" role="status">
-                <span className="book-done__icon"><FaCheck /></span>
-                <h2>{T.successTitle}</h2>
-                <p>{T.success}</p>
-                <Link to="/" className="btn btn--ghost">{t.nav.home}</Link>
               </div>
             ) : (
               <form className="form book-form" onSubmit={submit}>
@@ -287,11 +238,12 @@ const BookPage = () => {
                   {t.legal.consent} <Link to="/privacy">{t.legal.privacy}</Link>.
                 </p>
                 <button type="submit" className="btn btn--primary book-submit" disabled={!q || status === "sending"}>
-                  {status === "sending" ? T.sending : q ? `${instantBooking ? T.payNow : T.send} · ${eur(q.direct)}` : T.sendDisabled}
+                  {status === "sending" ? T.sending : q ? `${T.payNow} · ${eur(q.direct)}` : T.pickDates}
                 </button>
-                <p className="book-step__note">{instantBooking ? T.securePayment : T.noPaymentYet}</p>
+                <p className="book-step__note">{T.securePayment}</p>
 
                 {status === "unavailable" && <p className="status-message error" role="alert">{T.unavailable}</p>}
+                {status === "busy" && <p className="status-message error" role="alert">{T.busy}</p>}
                 {status === "error" && <p className="status-message error" role="alert">{T.error}</p>}
               </form>
             )}

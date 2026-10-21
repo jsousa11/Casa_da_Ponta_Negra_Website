@@ -1,8 +1,7 @@
-// O Stripe chama este endereço quando um pagamento é concluído (ou falha).
+// O Stripe chama este endereço quando um pagamento é concluído, expira ou é reembolsado.
 // No Stripe: Programadores → Webhooks → Adicionar destino
 //   URL: https://<o-site>/.netlify/functions/stripe-webhook
-//   Eventos: checkout.session.completed, checkout.session.async_payment_succeeded,
-//            checkout.session.async_payment_failed, checkout.session.expired, charge.refunded
+//   Eventos: checkout.session.completed, checkout.session.expired, charge.refunded
 // O "segredo de assinatura" (whsec_…) vai para STRIPE_WEBHOOK_SECRET na Netlify.
 import { quote } from "../../src/config/pricing.js";
 import { getBooking, saveBooking, listBookings } from "./lib/bookings.mjs";
@@ -11,13 +10,12 @@ import { mailConfigured, sendBookingEmails } from "./lib/mailer.mjs";
 
 const ok = () => new Response("ok");
 
-const notify = async (booking, kind) => {
+const notify = async (booking) => {
   if (!mailConfigured()) return;
   try {
     await sendBookingEmails({
       b: booking,
       q: quote(booking.checkIn, booking.checkOut, booking.adults + booking.children),
-      kind,
       test: booking.livemode === false,
     });
   } catch (err) {
@@ -50,29 +48,11 @@ export default async (req) => {
   const booking = await getBooking(id);
   if (!booking) return ok();
 
-  switch (event.type) {
-    case "checkout.session.completed":
-      if (session.payment_status === "paid") {
-        if (booking.status !== "paid") {
-          await saveBooking({ ...booking, status: "paid", paidAt: Date.now(), paymentIntent: session.payment_intent });
-          await notify(booking, "confirmed");
-        }
-      } else if (booking.status === "hold") {
-        // Multibanco: o hóspede tem a referência mas ainda não pagou — mantém as datas
-        await saveBooking({ ...booking, status: "processing" });
-        await notify(booking, "processing");
-      }
-      break;
-    case "checkout.session.async_payment_succeeded":
-      if (booking.status !== "paid") {
-        await saveBooking({ ...booking, status: "paid", paidAt: Date.now(), paymentIntent: session.payment_intent });
-        await notify(booking, "confirmed");
-      }
-      break;
-    case "checkout.session.async_payment_failed":
-    case "checkout.session.expired":
-      if (booking.status !== "paid") await saveBooking({ ...booking, status: "cancelled" });
-      break;
+  if (event.type === "checkout.session.completed" && session.payment_status === "paid" && booking.status !== "paid") {
+    await saveBooking({ ...booking, status: "paid", paidAt: Date.now(), paymentIntent: session.payment_intent });
+    await notify(booking);
+  } else if (event.type === "checkout.session.expired" && booking.status !== "paid") {
+    await saveBooking({ ...booking, status: "cancelled" });
   }
   return ok();
 };

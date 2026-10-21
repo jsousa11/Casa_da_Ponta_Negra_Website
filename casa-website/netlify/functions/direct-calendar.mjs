@@ -7,7 +7,7 @@ import { activeDirectBookings } from "./lib/bookings.mjs";
 const ymd = (iso) => iso.replaceAll("-", "");
 
 export default async () => {
-  const bookings = (await activeDirectBookings()).filter((b) => b.status === "paid" || b.status === "processing");
+  const bookings = (await activeDirectBookings()).filter((b) => b.status === "paid");
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
   const events = bookings.map((b) => [
     "BEGIN:VEVENT",

@@ -31,10 +31,6 @@ export const site = {
     airbnb: { score: "5,0", count: 25 },  // Superhost · Favorito dos hóspedes (out. 2026)
   },
 
-  // Link do motor de reservas direto (Smoobu, Lodgify, ...). Quando existir,
-  // o botão "Reservar" passa a abrir este link em vez do formulário de pedido.
-  bookingEngineUrl: null,
-
   platforms: {
     booking: "https://www.booking.com/hotel/pt/casa-da-ponta-negra-vila-do-porto.html",
     airbnb: "https://www.airbnb.pt/rooms/993976971668808205",
@@ -46,7 +42,7 @@ export const site = {
   },
 };
 
-// EmailJS (formulários de contacto e pedido de reserva)
+// EmailJS (formulário de contacto)
 export const emailjsConfig = {
   serviceId: "service_78mmtgl",
   templateId: "template_9etmqy9",
