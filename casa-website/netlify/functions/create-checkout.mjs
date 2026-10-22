@@ -11,6 +11,13 @@ import { json, readBooking } from "./lib/validate.mjs";
 // Máximo de pessoas diferentes a pagar ao mesmo tempo (evita que alguém bloqueie o calendário)
 const MAX_HOLDS = 5;
 
+// Pagamento de teste a 1 €: escrever na mensagem da reserva o código guardado na Netlify
+// em TEST_BOOKING_CODE. Apagar a variável quando os testes acabarem.
+const isTestBooking = (b) => {
+  const code = process.env.TEST_BOOKING_CODE;
+  return Boolean(code && code.length >= 8 && b.message.trim() === code);
+};
+
 // Identifica o visitante sem guardar o IP: só um resumo (hash) dele
 const clientId = (req) => {
   const ip = req.headers.get("x-nf-client-connection-ip") || req.headers.get("x-forwarded-for") || "";
@@ -54,6 +61,8 @@ export default async (req) => {
   const id = newBookingId();
   const siteUrl = (process.env.URL || new URL(req.url).origin).replace(/\/$/, "");
   const nightsLabel = b.lang === "pt" ? "noites" : "nights";
+  const test = isTestBooking(b);
+  const total = test ? 1 : q.direct;
 
   try {
     // Os métodos de pagamento (cartão, MB WAY, Revolut Pay...) são os que estão ativos
@@ -71,9 +80,9 @@ export default async (req) => {
           quantity: 1,
           price_data: {
             currency: "eur",
-            unit_amount: q.direct * 100,
+            unit_amount: total * 100,
             product_data: {
-              name: `${site.name} · ${b.checkIn} → ${b.checkOut}`,
+              name: `${test ? "TESTE · " : ""}${site.name} · ${b.checkIn} → ${b.checkOut}`,
               description: `${q.nights} ${nightsLabel} · ${b.adults + b.children} ${b.lang === "pt" ? "hóspedes" : "guests"}`,
             },
           },
@@ -83,7 +92,7 @@ export default async (req) => {
       metadata: { booking_id: id, check_in: b.checkIn, check_out: b.checkOut },
     });
 
-    await saveBooking({ id, ...b, client, total: q.direct, status: "hold", sessionId: session.id, livemode: session.livemode, createdAt: Date.now() });
+    await saveBooking({ id, ...b, client, total, test, status: "hold", sessionId: session.id, livemode: session.livemode, createdAt: Date.now() });
     return json(200, { url: session.url });
   } catch (err) {
     console.error("Checkout:", err.message);
