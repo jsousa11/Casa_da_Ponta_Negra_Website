@@ -24,6 +24,13 @@ const fmtDate = (iso, lang) => {
   }).format(Date.UTC(y, m - 1, d));
 };
 
+// Data curta para o assunto: "27 de setembro" / "27 September"
+const shortDate = (iso, lang) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-GB", { day: "numeric", month: "long", timeZone: "UTC" })
+    .format(Date.UTC(y, m - 1, d));
+};
+
 const guestsText = (b, lang) => {
   const pt = lang === "pt";
   const parts = [`${b.adults} ${pt ? (b.adults === 1 ? "adulto" : "adultos") : (b.adults === 1 ? "adult" : "adults")}`];
@@ -105,7 +112,7 @@ export const ownerEmail = ({ b, q, siteUrl }) => {
     <p style="margin:26px 0 0">${button(`mailto:${esc(b.email)}?subject=${replySubject}`, "Responder ao hóspede")}</p>`;
 
   return {
-    subject: `✅ Reserva paga: ${fmtDate(b.checkIn, "pt")} – ${fmtDate(b.checkOut, "pt")} · ${q.nights} noites · ${b.name}`,
+    subject: `Nova reserva de ${b.name}: ${shortDate(b.checkIn, "pt")} a ${shortDate(b.checkOut, "pt")} (${q.nights} noites)`,
     html: layout({ siteUrl, preheader: `${guestsText(b, "pt")} · ${eur(q.direct)}`, body }),
   };
 };
@@ -124,7 +131,7 @@ const guestTexts = {
     questions: "Alguma dúvida? Basta responder a este email.",
     bye: "Até breve,",
     confirmed: {
-      subject: "Reserva confirmada",
+      subject: (a, b) => `Reserva confirmada na ${site.name}: ${a} a ${b}`,
       badge: badge("Reserva confirmada", C.green),
       intro: "Recebemos o seu pagamento e a sua reserva está confirmada. Estamos à sua espera em São Lourenço!",
       totalLabel: "Total pago",
@@ -147,7 +154,7 @@ const guestTexts = {
     questions: "Any questions? Just reply to this email.",
     bye: "See you soon,",
     confirmed: {
-      subject: "Booking confirmed",
+      subject: (a, b) => `Your booking at ${site.name} is confirmed: ${a} to ${b}`,
       badge: badge("Booking confirmed", C.green),
       intro: "We've received your payment and your booking is confirmed. We look forward to welcoming you to São Lourenço!",
       totalLabel: "Total paid",
@@ -190,7 +197,7 @@ export const guestEmail = ({ b, q, siteUrl, hostName }) => {
     <p style="margin:28px 0 0;color:${C.ink};font-size:15px">${L.bye}<br><strong>${esc(hostName)}</strong><br>${site.name}</p>`;
 
   return {
-    subject: `${K.subject} · ${site.name}`,
+    subject: K.subject(shortDate(b.checkIn, b.lang), shortDate(b.checkOut, b.lang)),
     html: layout({ siteUrl, preheader: K.intro, hero: "view_jacuzzi.jpg", body }),
   };
 };
