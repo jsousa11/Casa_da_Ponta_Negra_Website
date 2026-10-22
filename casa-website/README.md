@@ -53,7 +53,6 @@ Preços, suplemento por pessoa, desconto e regras: `src/config/pricing.js`.
 | `AIRBNB_ICAL_URL` / `BOOKING_ICAL_URL` | Links de exportação do calendário de cada plataforma |
 | `STRIPE_SECRET_KEY` | Chave secreta do Stripe (`sk_live_…` ou `sk_test_…` para testar) |
 | `STRIPE_WEBHOOK_SECRET` | Segredo do webhook (`whsec_…`) |
-| `TEST_BOOKING_CODE` | Opcional. Quem escrever este código na mensagem da reserva paga 1 € (para testar pagamentos reais). Apagar depois dos testes |
 
 ### Stripe → webhook
 Programadores → Webhooks → Adicionar destino: `https://<site>/.netlify/functions/stripe-webhook`, com os eventos
