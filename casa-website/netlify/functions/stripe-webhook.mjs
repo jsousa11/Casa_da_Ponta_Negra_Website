@@ -33,9 +33,13 @@ export default async (req) => {
   const event = JSON.parse(raw);
   const session = event.data?.object;
 
-  // Reembolso total feito no Stripe: cancela a reserva e liberta as datas
+  // Reembolso no Stripe: cancela a reserva e liberta as datas.
+  // Conta como cancelamento o reembolso total ou o que só retém a comissão do Stripe
+  // (até 5% + 0,50 €); um desconto parcial maior não cancela a reserva.
   if (event.type === "charge.refunded") {
-    if (!session?.refunded) return ok();
+    const kept = (session?.amount_captured ?? session?.amount ?? 0) - (session?.amount_refunded ?? 0);
+    const cancelled = session?.refunded || kept <= (session?.amount ?? 0) * 0.05 + 50;
+    if (!cancelled) return ok();
     const booking = (await listBookings()).find((b) => b.paymentIntent && b.paymentIntent === session.payment_intent);
     if (booking && booking.status !== "cancelled") {
       await saveBooking({ ...booking, status: "cancelled", refundedAt: Date.now() });
