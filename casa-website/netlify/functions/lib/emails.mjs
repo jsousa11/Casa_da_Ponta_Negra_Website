@@ -127,7 +127,7 @@ const guestTexts = {
     arrival: "Chegada", departure: "Partida", guests: "Hóspedes",
     from: "a partir das", until: "até às", nights: "noites",
     savings: (s) => `Poupou ${s} em relação ao Airbnb e ao Booking.`,
-    cancel: "Se cancelar até 30 dias antes da chegada, devolvemos o valor total. Com menos de 30 dias, não há reembolso.",
+    cancel: "Se cancelar até 30 dias antes da chegada, devolvemos o valor pago, menos a comissão do sistema de pagamento (normalmente cerca de 1,5%). Com menos de 30 dias, não há reembolso.",
     questions: "Alguma dúvida? Basta responder a este email.",
     bye: "Até breve,",
     confirmed: {
@@ -150,7 +150,7 @@ const guestTexts = {
     arrival: "Arrival", departure: "Departure", guests: "Guests",
     from: "from", until: "by", nights: "nights",
     savings: (s) => `You saved ${s} compared with Airbnb and Booking.com.`,
-    cancel: "Cancel up to 30 days before arrival for a full refund. Less than 30 days before: no refund.",
+    cancel: "Cancel up to 30 days before arrival and we refund what you paid, minus the payment processing fee (usually around 1.5%). Less than 30 days before: no refund.",
     questions: "Any questions? Just reply to this email.",
     bye: "See you soon,",
     confirmed: {
