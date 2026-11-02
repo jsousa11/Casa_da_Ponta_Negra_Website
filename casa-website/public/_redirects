@@ -1,1 +1,7 @@
+# O domínio .pt leva sempre para o .com
+http://casadapontanegra.pt/*       https://casadapontanegra.com/:splat  301!
+https://casadapontanegra.pt/*      https://casadapontanegra.com/:splat  301!
+http://www.casadapontanegra.pt/*   https://casadapontanegra.com/:splat  301!
+https://www.casadapontanegra.pt/*  https://casadapontanegra.com/:splat  301!
+
 /*    /index.html   200
