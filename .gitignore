@@ -53,3 +53,6 @@ pnpm-lock.yaml
 *.key
 .env
 .env.*
+*invoice*
+*fatura*
+/*.pdf
