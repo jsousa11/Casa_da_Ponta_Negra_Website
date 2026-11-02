@@ -29,10 +29,17 @@
       {
         "@context": "https://schema.org",
         "@type": "VacationRental",
+        "additionalType": "House",
+        "identifier": "3866/AL",
         "name": "Casa da Ponta Negra",
         "description": "Casa de férias tradicional na Baía de São Lourenço, Santa Maria, Açores, com jacuzzi privado com vista mar e acesso direto à praia.",
         "url": "__SITE_URL__/",
-        "image": ["__SITE_URL__/assets/view_jacuzzi.jpg", "__SITE_URL__/assets/front_house.jpg", "__SITE_URL__/assets/livingroom.jpg"],
+        "image": [
+          "__SITE_URL__/assets/view_jacuzzi.jpg", "__SITE_URL__/assets/front_house.jpg", "__SITE_URL__/assets/view.jpg",
+          "__SITE_URL__/assets/livingroom.jpg", "__SITE_URL__/assets/kitchen.jpg", "__SITE_URL__/assets/dinningroom.jpg",
+          "__SITE_URL__/assets/bedroom_1.jpg", "__SITE_URL__/assets/bedroom_2.jpg", "__SITE_URL__/assets/bathroom_1.jpg",
+          "__SITE_URL__/assets/view_balcony.jpg", "__SITE_URL__/assets/beach_view.jpg"
+        ],
         "telephone": "+351963504856",
         "email": "pontanegrahouse@gmail.com",
         "address": {
@@ -49,7 +56,12 @@
           "additionalType": "EntirePlace",
           "numberOfBedrooms": 2,
           "numberOfBathroomsTotal": 2,
-          "occupancy": { "@type": "QuantitativeValue", "maxValue": 5 },
+          "occupancy": { "@type": "QuantitativeValue", "value": 5 },
+          "bed": [
+            { "@type": "BedDetails", "numberOfBeds": 1, "typeOfBed": "Double" },
+            { "@type": "BedDetails", "numberOfBeds": 1, "typeOfBed": "Queen" },
+            { "@type": "BedDetails", "numberOfBeds": 1, "typeOfBed": "Sofa bed" }
+          ],
           "amenityFeature": [
             { "@type": "LocationFeatureSpecification", "name": "Heated hot tub", "value": true },
             { "@type": "LocationFeatureSpecification", "name": "Wifi", "value": true },
